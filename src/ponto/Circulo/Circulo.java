@@ -22,7 +22,7 @@ public class Circulo {
     public Circulo(double x1, double y1, double x2, double y2){
         this.ponto1 = new Ponto((int) x1, (int) y1);
         this.ponto2 = new Ponto( (int) x2, (int) y2);
-        this.raio = (int) x1 - (int) x2;
+        this.raio = (int) Math.sqrt(Math.pow((x1 - x2),2) + Math.pow((y1 - y2),2));
     }
 
     public Ponto getPonto1() {
