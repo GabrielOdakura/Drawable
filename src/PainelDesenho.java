@@ -41,7 +41,7 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
     private boolean segundaVez = false;
 
     // Estrutura de dados para aramzenar os pontos
-    private ArrayList<Object> armazenador = new ArrayList<>();
+    private ArrayList<Object> estruturaDados = new ArrayList<>();
     private Armazenador auxiliar;
     
     /**
@@ -156,10 +156,10 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
     public void mousePressed(MouseEvent e) {
         Graphics g = getGraphics();  
         if (tipo == TipoPrimitivo.PONTO){
-            x = e.getX();
-            y = e.getY();
-            auxiliar = new Armazenador(x1, y1, tipo);
-            armazenador.add(auxiliar);
+            x1 = e.getX();
+            y1 = e.getY();
+            auxiliar = new Armazenador(x1, y1, tipo, esp);
+            estruturaDados.add(auxiliar);
             paint(g);
         } else if (tipo == TipoPrimitivo.RETA){
 
@@ -171,8 +171,8 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
                 x2 = (int)e.getX();
                 y2 = (int)e.getY();
                 primeiraVez = true;
-                auxiliar = new Armazenador(x1, y1, x2, y2, tipo);
-                armazenador.add(auxiliar);
+                auxiliar = new Armazenador(x1, y1, x2, y2, tipo, esp);
+                estruturaDados.add(auxiliar);
                 paint(g);
             }
         }else if(tipo == TipoPrimitivo.RETANGULO){
@@ -188,8 +188,8 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
                 primeiraVez = true;
 //                System.out.println("valor primeira vez: " + primeiraVez);
 //                System.out.println("Valor de X2: " + x2 + " Valor de Y2: " + y2);
-                auxiliar = new Armazenador(x1, y1, x2, y2, tipo);
-                armazenador.add(auxiliar);
+                auxiliar = new Armazenador(x1, y1, x2, y2, tipo, esp);
+                estruturaDados.add(auxiliar);
                 paint(g);
             }
         } else if (tipo == TipoPrimitivo.TRIANGULO) {
@@ -206,6 +206,8 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
                 y3 = (int)e.getY();
                 primeiraVez = true;
                 segundaVez = false;
+                auxiliar = new Armazenador(x1, y1, x2, y2, x3, y3, tipo, esp);
+                estruturaDados.add(auxiliar);
                 paint(g);
             }
         }
@@ -218,8 +220,8 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
                 x2 = (int) e.getX();
                 y2 = (int) e.getY();
                 primeiraVez = true;
-                auxiliar = new Armazenador(x1, y1, x2, y2, tipo);
-                armazenador.add(auxiliar);
+                auxiliar = new Armazenador(x1, y1, x2, y2, tipo, esp);
+                estruturaDados.add(auxiliar);
                 paint(g);
             }
         }else if(tipo == TipoPrimitivo.MANDALA){
@@ -231,8 +233,8 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
                 x2 = (int) e.getX();
                 y2 = (int) e.getY();
                 primeiraVez = true;
-                auxiliar = new Armazenador(x1, y1, x2, y2, tipo);
-                armazenador.add(auxiliar);
+                auxiliar = new Armazenador(x1, y1, x2, y2, tipo, esp);
+                estruturaDados.add(auxiliar);
                 paint(g);
             }
         }
@@ -262,6 +264,47 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
         this.msg.setText("("+e.getX() + ", " + e.getY() + ") - " + getTipo());
     }
 
+    public void printArmazenador(){
+        Graphics g = getGraphics();
+        int i = 0;
+        Armazenador temporario;
+        if(estruturaDados.isEmpty()){
+            System.out.println("Nao existem registros para carregar");
+        }else {
+            while (estruturaDados.size() != i) {
+                System.out.println(estruturaDados.get(i));
+                i++;
+            }
+        }
+    }
+
+    public void redesenharED(){
+        Graphics g = getGraphics();
+        int i = 0;
+        Armazenador temporario;
+        if(estruturaDados.isEmpty()){
+            System.out.println("Nao existem registros para carregar");
+        }else {
+            while (estruturaDados.size() != i) {
+                temporario = (Armazenador) estruturaDados.get(i);
+                x1 = (int) temporario.getPonto1().getX();
+                y1 = (int) temporario.getPonto1().getY();
+                if(temporario.getPonto2() != null){
+                    x2 = (int) temporario.getPonto2().getX();
+                    y2 = (int) temporario.getPonto2().getY();
+                }
+                if(temporario.getPonto3() != null) {
+                    x3 = (int) temporario.getPonto3().getX();
+                    y3 = (int) temporario.getPonto3().getY();
+                }
+                esp = temporario.getEspessura();
+                tipo = temporario.getTipo();
+                desenharPrimitivos(g);
+                i++;
+            }
+        }
+    }
+
     /**
      * Desenha os primitivos
      *
@@ -269,7 +312,7 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
      */
     public void desenharPrimitivos(Graphics g){
         if (tipo == TipoPrimitivo.PONTO){
-            FiguraPontos.desenharPonto(g, x, y, "", getEsp(), getCorAtual());
+            FiguraPontos.desenharPonto(g, x1, y1, "", getEsp(), getCorAtual());
             //FiguraPontos.desenharPontos(g, 50, 20);
         }else if (tipo == TipoPrimitivo.RETA){
             FiguraRetas.desenharReta(g, x1, y1, x2, y2, "", getEsp(), getCorAtual());

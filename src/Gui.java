@@ -115,13 +115,16 @@ class Gui extends JFrame {
             tipoAtual = TipoPrimitivo.TRIANGULO;
             areaDesenho.setTipo(tipoAtual);
         });
+        jbCirculo.addActionListener(e -> {
+            tipoAtual = TipoPrimitivo.CIRCULO;
+            areaDesenho.setTipo(tipoAtual);
+        });
         jbMandala.addActionListener(e ->{
             tipoAtual = TipoPrimitivo.MANDALA;
             areaDesenho.setTipo(tipoAtual);
         });
-        jbCirculo.addActionListener(e -> {
-            tipoAtual = TipoPrimitivo.CIRCULO;
-            areaDesenho.setTipo(tipoAtual);
+        jbRedesenhar.addActionListener(e ->{
+            areaDesenho.redesenharED();
         });
         jbLimpar.addActionListener(e -> {
             areaDesenho.removeAll();
