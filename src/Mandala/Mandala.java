@@ -34,19 +34,23 @@ public class Mandala {
      */
     private void calcularPontos(){
         int distancia;
+        int diferencaXY;
+        int distanciaX; // serve para calcular os pontos diretamente abaixo e em cima de P1
         distancia = (int) getPonto1().getX() - (int)  getPonto2().getX();
+        diferencaXY = (int) (distancia - (distancia * 12.1) /100);
+        distanciaX = (int) ((distancia * 5) / 100);
         if(distancia < 0) distancia = distancia * -1;
         this.ponto3 = (new Ponto((getPonto1().getX() + (distancia / 2)),(getPonto1().getY() - distancia)));
-        this.ponto4 = (new Ponto((getPonto3().getX() + distancia), getPonto3().getY()));
+        this.ponto4 = (new Ponto((getPonto3().getX() + (distancia - distanciaX)), getPonto3().getY()));
         this.ponto5 = (new Ponto((getPonto3().getX() - distancia), getPonto3().getY()));
-        this.ponto6 = (new Ponto((getPonto5().getX() - distancia), getPonto3().getY()));
-        this.ponto7 = (new Ponto(ponto1.getX(), (ponto1.getY() - (2 * distancia))));
+        this.ponto6 = (new Ponto((getPonto5().getX() - (distancia - distanciaX)), getPonto3().getY()));
+        this.ponto7 = (new Ponto(ponto1.getX(), (ponto1.getY() - (2 * distancia))));//distanciaY // (2 * distancia)
         this.ponto8 = (new Ponto((getPonto1().getX() - distancia), getPonto1().getY()));
         this.ponto9 = (new Ponto(getPonto6().getX(), (getPonto6().getY() + (2 * distancia))));
         this.ponto10 = (new Ponto((getPonto9().getX() + distancia),(getPonto9().getY())));
         this.ponto11 = (new Ponto((getPonto10().getX() + distancia),(getPonto9().getY())));
-        this.ponto12 = (new Ponto((getPonto11().getX() + distancia),(getPonto9().getY())));
-        this.ponto13 = (new Ponto(ponto1.getX(), (ponto1.getY() + (2 * distancia))));
+        this.ponto12 = (new Ponto((getPonto4().getX()),(getPonto9().getY())));
+        this.ponto13 = (new Ponto(ponto1.getX(), (ponto1.getY() + (2 * distancia))));//distanciaY // (2 * distancia)
     }
 
     //getters e setters

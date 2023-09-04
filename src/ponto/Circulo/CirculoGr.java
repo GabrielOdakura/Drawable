@@ -43,7 +43,7 @@ public class CirculoGr extends Circulo{
             double cosseno = Math.cos(radiano);
             x = xCentral + cosseno * raio;
             y = yCentral + seno * raio;
-            PontoGr circulo = new PontoGr((int) x,(int) y,Color.black, espessura);
+            PontoGr circulo = new PontoGr((int) x,(int) y, corAtual, espessura);
             circulo.desenharPonto(g);
         }
 

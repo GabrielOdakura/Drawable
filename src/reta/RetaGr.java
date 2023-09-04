@@ -206,6 +206,53 @@ public class RetaGr extends Reta{
         this.corNomeReta = corNomeReta;
     }
 
+
+    /** WIP - Algoritmo da reta por Midpoint
+     *
+     */
+    public void desenharRetaMid(Graphics g){
+        int dx = (int) getP2().getX() - (int) getP1().getX();
+        int dy = (int) getP2().getY() - (int) getP1().getY();
+        int x1 = (int) getP1().getX(), y1 = (int) getP1().getY();
+        int x2 = (int) getP2().getX(), y2 = (int) getP2().getY();
+
+        int d = dy - (dx/2);
+        PontoGr ponto;
+
+        ponto = new PontoGr((int) x1, (int) y1, getCorReta(), getEspReta());
+        ponto.desenharPonto(g);
+
+        if(false){
+            System.out.println("valor dx: " + dx + " valor dy: " + dy);
+            while (x1 < x2) {// faz pelo valor de X
+                x1++;
+                if (d < 0) {
+                    d = d + dy;
+                }else{
+                    d += (dy - dx);
+                    y1++;
+                }
+
+                ponto = new PontoGr((int) x1, (int) y1, getCorReta(), getEspReta());
+                ponto.desenharPonto(g);
+            }
+        }else{
+            System.out.println("valor dx: " + dx + " valor dy: " + dy);
+            while (y1 < y2) {// faz pelo valor de Y
+                y1++;
+                if (d < 0) {
+                    d = d + dx;
+                }else{
+                    d += (dx - dy);
+                    y1++;
+                }
+
+                ponto = new PontoGr((int) x1, (int) y1, getCorReta(), getEspReta());
+                ponto.desenharPonto(g);
+            }
+        }
+    }
+
     /**
      * Desenha reta grafica utilizando a equacao da reta: y = mx + b
      *

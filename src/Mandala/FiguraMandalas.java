@@ -24,8 +24,8 @@ public class FiguraMandalas {
      * @param corAtual cor da reta
      */
 
-    public static void desenharMandala(Graphics g, int x1, int y1, int x2, int y2, String nome, int espessura, Color corAtual){
-        MandalaGr mandala = new MandalaGr(x1, y1, x2, y2, nome, espessura, corAtual);
+    public static void desenharMandala(Graphics g, int x1, int y1, int x2, int y2, String nome, int espessura, Color corAtual, Color corCirculo){
+        MandalaGr mandala = new MandalaGr(x1, y1, x2, y2, nome, espessura, corAtual, corCirculo);
         mandala.desenharMandala(g);
     }
 }

@@ -28,6 +28,7 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
     private JLabel msg;           // Label para mensagens
     private TipoPrimitivo tipo; // Tipo do primitivo
     private Color corAtual;       // Cor atual do primitivo
+    private Color segundaCorMandala;
     private int esp;              // Diametro do ponto
 
     // Para ponto
@@ -158,7 +159,7 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
         if (tipo == TipoPrimitivo.PONTO){
             x1 = e.getX();
             y1 = e.getY();
-            auxiliar = new Armazenador(x1, y1, tipo, esp);
+            auxiliar = new Armazenador(x1, y1, tipo, esp, corAtual);
             estruturaDados.add(auxiliar);
             paint(g);
         } else if (tipo == TipoPrimitivo.RETA){
@@ -171,7 +172,7 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
                 x2 = (int)e.getX();
                 y2 = (int)e.getY();
                 primeiraVez = true;
-                auxiliar = new Armazenador(x1, y1, x2, y2, tipo, esp);
+                auxiliar = new Armazenador(x1, y1, x2, y2, tipo, esp, corAtual, null);
                 estruturaDados.add(auxiliar);
                 paint(g);
             }
@@ -188,7 +189,7 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
                 primeiraVez = true;
 //                System.out.println("valor primeira vez: " + primeiraVez);
 //                System.out.println("Valor de X2: " + x2 + " Valor de Y2: " + y2);
-                auxiliar = new Armazenador(x1, y1, x2, y2, tipo, esp);
+                auxiliar = new Armazenador(x1, y1, x2, y2, tipo, esp, corAtual, null);
                 estruturaDados.add(auxiliar);
                 paint(g);
             }
@@ -206,7 +207,7 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
                 y3 = (int)e.getY();
                 primeiraVez = true;
                 segundaVez = false;
-                auxiliar = new Armazenador(x1, y1, x2, y2, x3, y3, tipo, esp);
+                auxiliar = new Armazenador(x1, y1, x2, y2, x3, y3, tipo, esp, corAtual);
                 estruturaDados.add(auxiliar);
                 paint(g);
             }
@@ -220,7 +221,7 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
                 x2 = (int) e.getX();
                 y2 = (int) e.getY();
                 primeiraVez = true;
-                auxiliar = new Armazenador(x1, y1, x2, y2, tipo, esp);
+                auxiliar = new Armazenador(x1, y1, x2, y2, tipo, esp, corAtual, null);
                 estruturaDados.add(auxiliar);
                 paint(g);
             }
@@ -229,11 +230,13 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
                 x1 = (int) e.getX();
                 y1 = (int) e.getY();
                 primeiraVez = false;
+                corAtual = corAtual; // chama a primeira vez aqui
             }else if(primeiraVez == false){
                 x2 = (int) e.getX();
                 y2 = (int) e.getY();
                 primeiraVez = true;
-                auxiliar = new Armazenador(x1, y1, x2, y2, tipo, esp);
+                segundaCorMandala = segundaCorMandala; // chama a segunda aqui
+                auxiliar = new Armazenador(x1, y1, x2, y2, tipo, esp, corAtual, segundaCorMandala);
                 estruturaDados.add(auxiliar);
                 paint(g);
             }
@@ -299,6 +302,7 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
                 }
                 esp = temporario.getEspessura();
                 tipo = temporario.getTipo();
+                corAtual = temporario.getCorFigura();
                 desenharPrimitivos(g);
                 i++;
             }
@@ -324,7 +328,7 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
         }else if(tipo == TipoPrimitivo.TRIANGULO){
             FiguraTriangulos.desenharTriangulo(g, x1, y1, x2, y2, x3, y3,  "", getEsp(), getCorAtual());
         }else if(tipo == TipoPrimitivo.MANDALA){
-            FiguraMandalas.desenharMandala(g, x1,y1,x2,y1,"", getEsp(),getCorAtual());
+            FiguraMandalas.desenharMandala(g, x1,y1,x2,y1,"", getEsp(),getCorAtual(), segundaCorMandala);
         }
     }
 }
