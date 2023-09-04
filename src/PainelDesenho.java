@@ -139,6 +139,14 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
         return this.msg;
     }
 
+    public Color getSegundaCorMandala() {
+        return segundaCorMandala;
+    }
+
+    public void setSegundaCorMandala(Color segundaCorMandala) {
+        this.segundaCorMandala = segundaCorMandala;
+    }
+
     /**
      * Metodo chamado quando o paint eh acionado
      *
@@ -281,6 +289,10 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
         }
     }
 
+    public void limparED(){
+        estruturaDados.clear();
+    }
+
     public void redesenharED(){
         Graphics g = getGraphics();
         int i = 0;
@@ -303,6 +315,9 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
                 esp = temporario.getEspessura();
                 tipo = temporario.getTipo();
                 corAtual = temporario.getCorFigura();
+                if (temporario.getTipo() == TipoPrimitivo.MANDALA){
+                    segundaCorMandala = temporario.getSegundaCorMandala();
+                }
                 desenharPrimitivos(g);
                 i++;
             }
