@@ -17,6 +17,7 @@ public class MandalaGr extends Mandala{
     private String nome;
     private int espessura;
     private Color corAtual = Color.red;
+    private Color corCirculo = Color.BLUE;
 
     /**
      * MandalaGr - Constroi uma mandala grafica
@@ -29,11 +30,12 @@ public class MandalaGr extends Mandala{
      * @param nome String. Nome da reta
      * @param espessura int. Espessura da reta
      */
-    public MandalaGr(int x1, int y1, int x2, int y2, String nome, int espessura, Color corAtual){
+    public MandalaGr(int x1, int y1, int x2, int y2, String nome, int espessura, Color corAtual, Color segundaCorMandala){
         super(x1, y1, x2, y2);
         this.nome = nome;
         this.espessura = espessura;
 //        this.corAtual = corAtual;
+        this.corCirculo = segundaCorMandala;
     }
 
     /** desenharMandala - Chama as outras funcoes que desenham a mandala
@@ -165,19 +167,19 @@ public class MandalaGr extends Mandala{
      */
     private void desenharCirculos(Graphics g){
         CirculoGr circulo1 = new CirculoGr(getPonto1().getX(), getPonto1().getY(),
-                getPonto2().getX(), getPonto2().getY(),nome, espessura, corAtual);
+                getPonto2().getX(), getPonto2().getY(),nome, espessura, corCirculo);
         CirculoGr circulo2 = new CirculoGr(getPonto3().getX(), getPonto3().getY(),
-                getPonto1().getX(), getPonto1().getY(),nome, espessura, corAtual);
+                getPonto1().getX(), getPonto1().getY(),nome, espessura, corCirculo);
         CirculoGr circulo3 = new CirculoGr(getPonto5().getX(), getPonto5().getY(),
-                getPonto1().getX(), getPonto1().getY(),nome, espessura, corAtual);
+                getPonto1().getX(), getPonto1().getY(),nome, espessura, corCirculo);
         CirculoGr circulo4 = new CirculoGr(getPonto10().getX(), getPonto10().getY(),
-                getPonto1().getX(), getPonto1().getY(),nome, espessura, corAtual);
+                getPonto1().getX(), getPonto1().getY(),nome, espessura, corCirculo);
         CirculoGr circulo5 = new CirculoGr(getPonto11().getX(), getPonto11().getY(),
-                getPonto1().getX(), getPonto1().getY(),nome, espessura, corAtual);
+                getPonto1().getX(), getPonto1().getY(),nome, espessura, corCirculo);
         CirculoGr circulo6 = new CirculoGr(getPonto2().getX(), getPonto2().getY(),
-                getPonto1().getX(), getPonto1().getY(),nome, espessura, corAtual);
+                getPonto1().getX(), getPonto1().getY(),nome, espessura, corCirculo);
         CirculoGr circulo7 = new CirculoGr(getPonto8().getX(), getPonto8().getY(),
-                getPonto1().getX(), getPonto1().getY(),nome, espessura, corAtual);
+                getPonto1().getX(), getPonto1().getY(),nome, espessura, corCirculo);
         circulo1.desenharCirculo(g);
         circulo2.desenharCirculo(g);
         circulo3.desenharCirculo(g);

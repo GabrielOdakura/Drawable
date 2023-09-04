@@ -3,32 +3,40 @@ package armazenador;
 import ponto.Ponto;
 import tipoPrimitivo.TipoPrimitivo;
 
+import java.awt.*;
+
 public class Armazenador {
 	private Ponto ponto1;
 	private Ponto ponto2;
 	private Ponto ponto3;
 	private TipoPrimitivo tipo;
 	private int espessura;
+	private Color corFigura;
+	private Color segundaCorMandala;
 	
-	public Armazenador(int x1, int y1, TipoPrimitivo tipo, int esp) {
+	public Armazenador(int x1, int y1, TipoPrimitivo tipo, int esp, Color corFigura) {
 		this.ponto1 = new Ponto(x1,y1);
 		this.tipo = tipo;
 		this.espessura = esp;
+		this.corFigura = corFigura;
 	}
 	
-	public Armazenador(int x1, int y1, int x2, int y2, TipoPrimitivo tipo, int esp) {
+	public Armazenador(int x1, int y1, int x2, int y2, TipoPrimitivo tipo, int esp, Color corFigura, Color segundaCorMandala) {
 		this.ponto1 = new Ponto(x1,y1);
 		this.ponto2 = new Ponto(x2,y2);
 		this.tipo = tipo;
 		this.espessura = esp;
+		this.corFigura = corFigura;
+		this.segundaCorMandala = segundaCorMandala;
 	}
 	
-	public Armazenador(int x1, int y1, int x2, int y2, int x3, int y3, TipoPrimitivo tipo, int esp) {
+	public Armazenador(int x1, int y1, int x2, int y2, int x3, int y3, TipoPrimitivo tipo, int esp, Color corFigura) {
 		this.ponto1 = new Ponto(x1,y1);
 		this.ponto2 = new Ponto(x2,y2);
 		this.ponto3 = new Ponto(x3,y3);
 		this.tipo = tipo;
 		this.espessura = esp;
+		this.corFigura = corFigura;
 	}
 
 	public Ponto getPonto1() {
@@ -69,6 +77,14 @@ public class Armazenador {
 
 	public void setEspessura(int espessura) {
 		this.espessura = espessura;
+	}
+
+	public Color getCorFigura() {
+		return corFigura;
+	}
+
+	public void setCorFigura(Color corFigura) {
+		this.corFigura = corFigura;
 	}
 
 	@Override
