@@ -1,16 +1,11 @@
+import ponto.FiguraPontos;
 import tipoPrimitivo.TipoPrimitivo;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Toolkit;
+import java.awt.*;
 
-import javax.swing.JButton;
-import javax.swing.JColorChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JSlider;
-import javax.swing.JToolBar;
+
+import javax.swing.*;
+//import javax.swing.JPopupMenu;
 
 @SuppressWarnings("serial")
 /**
@@ -33,9 +28,8 @@ class Gui extends JFrame {
     // barra de menu (inserir componente)
     private JToolBar barraComandos = new JToolBar();
 
-    // mensagens
+    // Mensagens
     private JLabel msg = new JLabel("Msg: ");
-    
 
     // Painel de desenho
     private PainelDesenho areaDesenho = new PainelDesenho(msg, tipoAtual, corAtual, 10);
@@ -56,6 +50,11 @@ class Gui extends JFrame {
     private JLabel jlEsp = new JLabel("   Espessura: " + String.format("%-5s", 3));
     private JSlider jsEsp = new JSlider(3, 50, 3);
 
+    private JMenuItem confirmar = new JMenuItem("Limpar Tela");
+    private JMenuItem limparED = new JMenuItem("Limpar Estrutura de Dados");
+    private JMenuItem recusar = new JMenuItem("Cancelar");
+    private JPopupMenu popupMenu = new JPopupMenu();
+
     /**
      * Constroi a GUI
      *
@@ -74,6 +73,13 @@ class Gui extends JFrame {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         setLocation((dim.width / 2) - (larg / 2), (dim.height / 2) - (alt / 2));
 
+        // PopUp de Confirmação
+        popupMenu.setVisible(false);
+        popupMenu.setEnabled(false);
+        popupMenu.setLocation((dim.width / 2) - (100 / 2), (dim.height / 2) - (50 / 2));
+        popupMenu.setBorder(BorderFactory.createLineBorder(Color.black));
+
+
         // Adicionando os componentes
         barraComandos.add(jbPonto);
         barraComandos.add(jbReta);
@@ -91,6 +97,13 @@ class Gui extends JFrame {
         barraComandos.add(jbSair); // Botao de Cores
 
         barraComandos.setFloatable(false);//faz a barra nao poder ser mais arrastada
+
+        // Área do PopUp
+        popupMenu.add(confirmar);
+        popupMenu.add(limparED);
+        popupMenu.add(recusar);
+
+        this.add(popupMenu);
 
         // adiciona os componentes com os respectivos layouts
         add(barraComandos, BorderLayout.NORTH);                
@@ -121,16 +134,34 @@ class Gui extends JFrame {
         });
         jbMandala.addActionListener(e ->{
             tipoAtual = TipoPrimitivo.MANDALA;
+            areaDesenho.setCorAtual(JColorChooser.showDialog(null, "Escolha uma cor", msg.getForeground()) );
+            areaDesenho.setSegundaCorMandala(JColorChooser.showDialog(null, "Escolha uma cor", msg.getForeground()) );
             areaDesenho.setTipo(tipoAtual);
         });
         jbRedesenhar.addActionListener(e ->{
             areaDesenho.redesenharED();
         });
         jbLimpar.addActionListener(e -> {
-            areaDesenho.removeAll();
-            jsEsp.setValue(1); // inicia slider (necessario para limpar ultimo primitivo da tela)
-            repaint();     
-            jsEsp.setValue(3);
+            popupMenu.show();
+            popupMenu.setVisible(true);
+            popupMenu.setEnabled(true);
+            confirmar.addActionListener(i -> {
+                Graphics g = getGraphics();
+                areaDesenho.removeAll();
+                jsEsp.setValue(1); // inicia slider (necessario para limpar ultimo primitivo da tela)
+                repaint();
+                jsEsp.setValue(3);
+                //FiguraPontos.desenharPonto(g, 350, 350,"",1000,Color.white);
+                popupMenu.setVisible(false);
+            });
+            limparED.addActionListener(i ->{
+                areaDesenho.limparED();
+                popupMenu.setVisible(false);
+            });
+            recusar.addActionListener(i ->{
+                popupMenu.setVisible(false);
+            });
+
         });        
         jbCor.addActionListener(e -> {
             Color c = JColorChooser.showDialog(null, "Escolha uma cor", msg.getForeground()); 

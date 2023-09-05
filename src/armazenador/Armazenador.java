@@ -87,6 +87,14 @@ public class Armazenador {
 		this.corFigura = corFigura;
 	}
 
+	public Color getSegundaCorMandala() {
+		return segundaCorMandala;
+	}
+
+	public void setSegundaCorMandala(Color segundaCorMandala) {
+		this.segundaCorMandala = segundaCorMandala;
+	}
+
 	@Override
 	public String toString() {
 		return "{Ponto 1: " + this.ponto1 + "}" +

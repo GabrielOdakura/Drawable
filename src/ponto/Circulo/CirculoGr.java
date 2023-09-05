@@ -9,7 +9,7 @@ public class CirculoGr extends Circulo{
 
     private String nome;
     private int espessura;
-    private Color corAtual = Color.BLUE;
+    private Color corAtual;
 
     public CirculoGr(Ponto p, int diametro) {
         super(p, diametro);
@@ -19,14 +19,14 @@ public class CirculoGr extends Circulo{
         super(x1,y1,x2,y2);
         this.nome = nome;
         this.espessura = espessura;
-//        this.corAtual = corAtual;
+        this.corAtual = corAtual;
     }
 
     public CirculoGr(double x1, double y1, double x2, double y2, String nome, int espessura, Color corAtual){
         super(x1,y1,x2,y2);
         this.nome = nome;
         this.espessura = espessura;
-//        this.corAtual = corAtual;
+        this.corAtual = corAtual;
     }
 
     public void desenharCirculo(Graphics g){
