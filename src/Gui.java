@@ -1,27 +1,22 @@
+import ponto.FiguraPontos;
 import tipoPrimitivo.TipoPrimitivo;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Toolkit;
+import java.awt.*;
 
-import javax.swing.JButton;
-import javax.swing.JColorChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JSlider;
-import javax.swing.JToolBar;
+
+import javax.swing.*;
+//import javax.swing.JPopupMenu;
 
 @SuppressWarnings("serial")
 /**
  * Cria a interface com o usuario (GUI)
  *
  * @author Breno Rodrigues, Bruno Novo, Gabriel Odakura, Julio Arakaki
- * @version 230810
+ * @version 20230905
  */
 class Gui extends JFrame {
     // Tipo Atual de primitivo
-    private TipoPrimitivo tipoAtual = TipoPrimitivo.NENHUM;
+    private TipoPrimitivo tipoAtual = TipoPrimitivo.PONTO;
 
     // Cor atual
     private Color corAtual = Color.BLACK;
@@ -33,9 +28,8 @@ class Gui extends JFrame {
     // barra de menu (inserir componente)
     private JToolBar barraComandos = new JToolBar();
 
-    // mensagens
+    // Mensagens
     private JLabel msg = new JLabel("Msg: ");
-    
 
     // Painel de desenho
     private PainelDesenho areaDesenho = new PainelDesenho(msg, tipoAtual, corAtual, 10);
@@ -55,6 +49,13 @@ class Gui extends JFrame {
     // Entrada (slider) para definir espessura dos primitivos
     private JLabel jlEsp = new JLabel("   Espessura: " + String.format("%-5s", 3));
     private JSlider jsEsp = new JSlider(3, 50, 3);
+    
+    // Itens relacionados ao menuPopup
+    private JMenuItem limpezaTotal = new JMenuItem("Limpar Tudo");
+    private JMenuItem confirmar = new JMenuItem("Limpar Tela");
+    private JMenuItem limparED = new JMenuItem("Limpar Estrutura de Dados");
+    private JMenuItem recusar = new JMenuItem("Cancelar");
+    private JPopupMenu popupMenu = new JPopupMenu();
 
     /**
      * Constroi a GUI
@@ -73,6 +74,14 @@ class Gui extends JFrame {
         setResizable(false);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         setLocation((dim.width / 2) - (larg / 2), (dim.height / 2) - (alt / 2));
+        
+        
+        // PopUp de Confirmação
+        popupMenu.setVisible(false);
+        popupMenu.setEnabled(false);
+        popupMenu.setLocation((dim.width / 2) - (100 / 2), (dim.height / 2) - (50 / 2));
+        popupMenu.setBorder(BorderFactory.createLineBorder(Color.black));
+
 
         // Adicionando os componentes
         barraComandos.add(jbPonto);
@@ -92,6 +101,14 @@ class Gui extends JFrame {
 
         barraComandos.setFloatable(false);//faz a barra nao poder ser mais arrastada
 
+        // Área do PopUp
+        popupMenu.add(limpezaTotal);
+        popupMenu.add(confirmar);
+        popupMenu.add(limparED);
+        popupMenu.add(recusar);
+
+        this.add(popupMenu);
+
         // adiciona os componentes com os respectivos layouts
         add(barraComandos, BorderLayout.NORTH);                
         add(areaDesenho, BorderLayout.CENTER);                
@@ -102,7 +119,7 @@ class Gui extends JFrame {
         jbPonto.addActionListener(e -> {
             tipoAtual = TipoPrimitivo.PONTO;
             areaDesenho.setTipo(tipoAtual);
-        });        
+        });                             
         jbReta.addActionListener(e -> {
             tipoAtual = TipoPrimitivo.RETA;
             areaDesenho.setTipo(tipoAtual);
@@ -121,16 +138,41 @@ class Gui extends JFrame {
         });
         jbMandala.addActionListener(e ->{
             tipoAtual = TipoPrimitivo.MANDALA;
+            areaDesenho.setPrimeiraCorMandala(JColorChooser.showDialog(null, "Escolha a cor das retas", msg.getForeground()));
+            areaDesenho.setSegundaCorMandala(JColorChooser.showDialog(null, "Escolha a cor dos circulos", msg.getForeground()));
             areaDesenho.setTipo(tipoAtual);
         });
         jbRedesenhar.addActionListener(e ->{
             areaDesenho.redesenharED();
         });
         jbLimpar.addActionListener(e -> {
-            areaDesenho.removeAll();
-            jsEsp.setValue(1); // inicia slider (necessario para limpar ultimo primitivo da tela)
-            repaint();     
-            jsEsp.setValue(3);
+            popupMenu.setVisible(true);
+            popupMenu.setEnabled(true);
+            limpezaTotal.addActionListener(i -> {
+            	areaDesenho.removeAll();
+                jsEsp.setValue(1); // inicia slider (necessario para limpar ultimo primitivo da tela)
+                //repaint();
+                jsEsp.setValue(3);
+                areaDesenho.limparTela();
+            	areaDesenho.limparED();
+                popupMenu.setVisible(false);
+            });
+            confirmar.addActionListener(i -> {
+                areaDesenho.removeAll();
+                jsEsp.setValue(1); // inicia slider (necessario para limpar ultimo primitivo da tela)
+                //repaint();
+                jsEsp.setValue(3);
+                areaDesenho.limparTela();
+                popupMenu.setVisible(false);
+            });
+            limparED.addActionListener(i ->{
+                areaDesenho.limparED();
+                popupMenu.setVisible(false);
+            });
+            recusar.addActionListener(i ->{
+                popupMenu.setVisible(false);
+            });
+
         });        
         jbCor.addActionListener(e -> {
             Color c = JColorChooser.showDialog(null, "Escolha uma cor", msg.getForeground()); 

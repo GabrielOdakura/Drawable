@@ -63,9 +63,9 @@ public class RetanguloGr extends Retangulo{
         RetaGr reta2 = new RetaGr( (int) getPonto3().getX(), (int) getPonto3().getY(),(int) getPonto2().getX(), (int) getPonto2().getY(),corAtual,nome,espessura);
         RetaGr reta3 = new RetaGr( (int) getPonto2().getX(), (int) getPonto2().getY(),(int) getPonto4().getX(), (int) getPonto4().getY(),corAtual,nome,espessura);
         RetaGr reta4 = new RetaGr( (int) getPonto4().getX(), (int) getPonto4().getY(),(int) getPonto1().getX(), (int) getPonto1().getY(),corAtual,nome,espessura);
-        reta1.desenharRetaHorizontal(g);
-        reta2.desenharRetaVertical(g);
-        reta3.desenharRetaHorizontal(g);
-        reta4.desenharRetaVertical(g);
+        reta1.desenharReta(g);
+        reta2.desenharReta(g);
+        reta3.desenharReta(g);
+        reta4.desenharReta(g);
     }
 }

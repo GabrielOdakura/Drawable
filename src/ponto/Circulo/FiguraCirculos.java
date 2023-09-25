@@ -1,3 +1,9 @@
+/**
+ * Desenha um circulo na tela
+ *
+ * @author Breno Rodrigues, Bruno Novo, Gabriel Odakura
+ * @version 20230905
+ */
 package ponto.Circulo;
 import java.awt.Color;
 import java.awt.*;

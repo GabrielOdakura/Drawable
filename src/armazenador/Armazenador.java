@@ -14,6 +14,15 @@ public class Armazenador {
 	private Color corFigura;
 	private Color segundaCorMandala;
 	
+	
+	/**
+     * Guarda o ponto
+     *
+     * @param x1 coordenada x de p1
+     * @param y1 coordenada y de p1
+     * @param esp espessura da figura
+     * @param corFigura cor da figura
+     */
 	public Armazenador(int x1, int y1, TipoPrimitivo tipo, int esp, Color corFigura) {
 		this.ponto1 = new Ponto(x1,y1);
 		this.tipo = tipo;
@@ -21,6 +30,16 @@ public class Armazenador {
 		this.corFigura = corFigura;
 	}
 	
+	/**
+     * Guarda figura de dois pontos
+     *
+     * @param x1 coordenada x de p1
+     * @param y1 coordenada y de p1
+     * @param x2 coordenada x de p2
+     * @param y2 coordenada y de p2
+     * @param esp espessura da figura
+     * @param corFigura cor da figura
+     */
 	public Armazenador(int x1, int y1, int x2, int y2, TipoPrimitivo tipo, int esp, Color corFigura, Color segundaCorMandala) {
 		this.ponto1 = new Ponto(x1,y1);
 		this.ponto2 = new Ponto(x2,y2);
@@ -30,6 +49,18 @@ public class Armazenador {
 		this.segundaCorMandala = segundaCorMandala;
 	}
 	
+	/**
+     * Guarda figura de três pontos
+     *
+     * @param x1 coordenada x de p1
+     * @param y1 coordenada y de p1
+     * @param x2 coordenada x de p2
+     * @param y2 coordenada y de p2
+     * @param x3 coordenada x de p3
+     * @param y3 coordenada y de p3
+     * @param esp espessura da figura
+     * @param corFigura cor da figura
+     */
 	public Armazenador(int x1, int y1, int x2, int y2, int x3, int y3, TipoPrimitivo tipo, int esp, Color corFigura) {
 		this.ponto1 = new Ponto(x1,y1);
 		this.ponto2 = new Ponto(x2,y2);
@@ -39,6 +70,7 @@ public class Armazenador {
 		this.corFigura = corFigura;
 	}
 
+	//getters e setters
 	public Ponto getPonto1() {
 		return ponto1;
 	}
@@ -85,6 +117,14 @@ public class Armazenador {
 
 	public void setCorFigura(Color corFigura) {
 		this.corFigura = corFigura;
+	}
+
+	public Color getSegundaCorMandala() {
+		return segundaCorMandala;
+	}
+
+	public void setSegundaCorMandala(Color segundaCorMandala) {
+		this.segundaCorMandala = segundaCorMandala;
 	}
 
 	@Override

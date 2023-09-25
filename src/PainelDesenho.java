@@ -4,9 +4,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
+import java.util.Stack;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
 
 import Mandala.FiguraMandalas;
 import armazenador.Armazenador;
@@ -20,15 +22,18 @@ import tipoPrimitivo.TipoPrimitivo;
 /**
  * Cria desenhos de acordo com o tipo e eventos do mouse
  * 
- * @author Julio Arakaki 
- * @version 20220815
+ * @author Breno Rodrigues, Bruno Novo, Gabriel Odakura, Julio Arakaki 
+ * @version 20230905
  */
 public class PainelDesenho extends JPanel implements MouseListener, MouseMotionListener {
 
     private JLabel msg;           // Label para mensagens
     private TipoPrimitivo tipo; // Tipo do primitivo
+    private Graphics gAux = getGraphics();
     private Color corAtual;       // Cor atual do primitivo
-    private Color segundaCorMandala;
+    private Color primeiraCorMandala;// Cor das retas da Mandala
+    private Color segundaCorMandala; // Cor Circulo Mandala
+    private Color corDeFundo = new Color(238,238,238);
     private int esp;              // Diametro do ponto
 
     // Para ponto
@@ -44,6 +49,7 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
     // Estrutura de dados para aramzenar os pontos
     private ArrayList<Object> estruturaDados = new ArrayList<>();
     private Armazenador auxiliar;
+    private Stack<Object> retrocederStack = new Stack<>();
     
     /**
      * Constroi o painel de desenho
@@ -130,6 +136,10 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
         this.msg = msg;
     }
 
+    public Graphics pegarGraphics(){
+        return this.gAux;
+    }
+
     /**
      * Retorna a mensagem
      *
@@ -139,7 +149,23 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
         return this.msg;
     }
 
-    /**
+    public Color getSegundaCorMandala() {
+        return segundaCorMandala;
+    }
+
+    public void setSegundaCorMandala(Color segundaCorMandala) {
+        this.segundaCorMandala = segundaCorMandala;
+    }
+    
+    public Color getPrimeiraCorMandala() {
+		return primeiraCorMandala;
+	}
+
+	public void setPrimeiraCorMandala(Color primeiraCorMandala) {
+		this.primeiraCorMandala = primeiraCorMandala;
+	}
+
+	/**
      * Metodo chamado quando o paint eh acionado
      *
      * @param g biblioteca para desenhar em modo grafico
@@ -161,6 +187,7 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
             y1 = e.getY();
             auxiliar = new Armazenador(x1, y1, tipo, esp, corAtual);
             estruturaDados.add(auxiliar);
+            retrocederStack.clear();
             paint(g);
         } else if (tipo == TipoPrimitivo.RETA){
 
@@ -174,6 +201,7 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
                 primeiraVez = true;
                 auxiliar = new Armazenador(x1, y1, x2, y2, tipo, esp, corAtual, null);
                 estruturaDados.add(auxiliar);
+                retrocederStack.clear();
                 paint(g);
             }
         }else if(tipo == TipoPrimitivo.RETANGULO){
@@ -191,6 +219,7 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 //                System.out.println("Valor de X2: " + x2 + " Valor de Y2: " + y2);
                 auxiliar = new Armazenador(x1, y1, x2, y2, tipo, esp, corAtual, null);
                 estruturaDados.add(auxiliar);
+                retrocederStack.clear();
                 paint(g);
             }
         } else if (tipo == TipoPrimitivo.TRIANGULO) {
@@ -209,6 +238,7 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
                 segundaVez = false;
                 auxiliar = new Armazenador(x1, y1, x2, y2, x3, y3, tipo, esp, corAtual);
                 estruturaDados.add(auxiliar);
+                retrocederStack.clear();
                 paint(g);
             }
         }
@@ -223,6 +253,7 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
                 primeiraVez = true;
                 auxiliar = new Armazenador(x1, y1, x2, y2, tipo, esp, corAtual, null);
                 estruturaDados.add(auxiliar);
+                retrocederStack.clear();
                 paint(g);
             }
         }else if(tipo == TipoPrimitivo.MANDALA){
@@ -230,14 +261,13 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
                 x1 = (int) e.getX();
                 y1 = (int) e.getY();
                 primeiraVez = false;
-                corAtual = corAtual; // chama a primeira vez aqui
             }else if(primeiraVez == false){
                 x2 = (int) e.getX();
                 y2 = (int) e.getY();
                 primeiraVez = true;
-                segundaCorMandala = segundaCorMandala; // chama a segunda aqui
-                auxiliar = new Armazenador(x1, y1, x2, y2, tipo, esp, corAtual, segundaCorMandala);
+                auxiliar = new Armazenador(x1, y1, x2, y2, tipo, esp, primeiraCorMandala, segundaCorMandala);
                 estruturaDados.add(auxiliar);
+                retrocederStack.clear();
                 paint(g);
             }
         }
@@ -281,6 +311,99 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
         }
     }
 
+    public void limparED(){
+        estruturaDados.clear();
+    }
+    
+    public void limparStack() {
+    	retrocederStack.clear();
+    }
+
+    /** getTamanhoED - pega o numero de elementos existentes na ArrayList
+     *
+     * @return int - numero de elementos na ArrayList
+     */
+    public int getTamanhoED(){
+        return estruturaDados.size();
+    }
+
+
+    public Armazenador buscarED(int indice){
+        return (Armazenador) estruturaDados.get(indice);// pega o indice da busca e procura na ArrayList
+    }
+
+    /** deletarEspecifico - deleta o elemento especifico da ED e coloca na Stack para voltar
+     *                      caso o usuário desejar
+     *
+     */
+    public void deletarEspecifico(int indice){
+        Armazenador temp = (Armazenador) estruturaDados.get(indice);
+        estruturaDados.remove(indice);
+        retrocederStack.add(temp);
+        limparTela();
+        redesenharED();
+    }
+
+    /**retroceder - Função de Control + Z
+     * 
+     */
+    public void retroceder(){ 
+        	primeiraVez = true;
+            segundaVez = false;
+            retrocederStack.add(estruturaDados.get(estruturaDados.size()));//pega o ultimo elemento da estrutura de dados
+            estruturaDados.remove(estruturaDados.size());
+            redesenharED();
+    }
+   
+    /**retrocederVazia - checa se já existe algum elemento na ED
+     * 
+     * @return Boolean -  true: lista vazia 
+     * 					 false: lista contem elementos
+     */
+    public boolean retrocederVazia() {
+    	return estruturaDados.isEmpty();
+    }
+    
+    /** recuperar - Função que restaura um elementro do Control + Z
+     * 
+     * 
+     */
+    public void recuperar() {
+    	if(!retrocederStack.empty()) {
+    		estruturaDados.add(retrocederStack.peek());
+    		redesenharElemento();
+    		retrocederStack.pop();
+    	}else {
+    		System.out.println("Nao existem elementos para recuperar");
+    	}
+    }
+    
+    /** redesenharElemento - redesenha um elemento armazenado na stack
+     * 
+     */
+    public void redesenharElemento(){
+    	Armazenador temporario;
+    	Graphics g = getGraphics();
+    		temporario = (Armazenador) retrocederStack.peek();
+    			x1 = (int) temporario.getPonto1().getX();
+    			y1 = (int) temporario.getPonto1().getY();
+    		if(temporario.getPonto2() != null){
+    			x2 = (int) temporario.getPonto2().getX();
+            	y2 = (int) temporario.getPonto2().getY();
+    		}
+    		if(temporario.getPonto3() != null) {
+    			x3 = (int) temporario.getPonto3().getX();
+            	y3 = (int) temporario.getPonto3().getY();
+    		}
+    		esp = temporario.getEspessura();
+    		tipo = temporario.getTipo();
+    		corAtual = temporario.getCorFigura();
+    		if (temporario.getTipo() == TipoPrimitivo.MANDALA){
+    			segundaCorMandala = temporario.getSegundaCorMandala();
+    		}
+        desenharPrimitivos(g);
+    }
+    
     public void redesenharED(){
         Graphics g = getGraphics();
         int i = 0;
@@ -303,6 +426,9 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
                 esp = temporario.getEspessura();
                 tipo = temporario.getTipo();
                 corAtual = temporario.getCorFigura();
+                if (temporario.getTipo() == TipoPrimitivo.MANDALA){
+                    segundaCorMandala = temporario.getSegundaCorMandala();
+                }
                 desenharPrimitivos(g);
                 i++;
             }
@@ -328,7 +454,12 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
         }else if(tipo == TipoPrimitivo.TRIANGULO){
             FiguraTriangulos.desenharTriangulo(g, x1, y1, x2, y2, x3, y3,  "", getEsp(), getCorAtual());
         }else if(tipo == TipoPrimitivo.MANDALA){
-            FiguraMandalas.desenharMandala(g, x1,y1,x2,y1,"", getEsp(),getCorAtual(), segundaCorMandala);
+            FiguraMandalas.desenharMandala(g, x1,y1,x2,y1,"", getEsp(),primeiraCorMandala, segundaCorMandala);
         }
+    }
+    
+    public void limparTela() {
+    	Graphics g = getGraphics();
+    	FiguraPontos.desenharPonto(g, 350, 350,"",1000,corDeFundo);
     }
 }
