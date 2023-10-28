@@ -10,7 +10,6 @@ import java.awt.event.WindowEvent;
 public class SelecionarFiguraDel {
 
     private PainelDesenho areaDesenho;
-
     private JFrame telaDeletar = new JFrame("Deletar Primitivo");
     private JPanel caixa = new JPanel();// serve como um armazenado para outros elementos
     private JPanel caixa2 = new JPanel();// serve como um armazenado para outros elementos

@@ -36,7 +36,10 @@ class Gui extends JFrame {
 
     // Painel de Deletar
     private SelecionarFiguraDel deletar;
-    
+
+    //Painel de Rotação
+    private SelecionarTrianguloRot rotacao;
+
     // Botoes
     private JButton jbDesfazer = new JButton("↩");
     private JButton jbRefazer = new JButton("↪");
@@ -67,6 +70,7 @@ class Gui extends JFrame {
     private JMenuItem salvarDesenho = new JMenuItem("Salvar Desenho");
     private JMenuItem carregarDesenho = new JMenuItem("Carregar Desenho");
     private JMenuItem deletarDesenho = new JMenuItem("Deletar do Desenho");
+    private JMenuItem rotacionarTriangulo = new JMenuItem("Rotacionar Triangulo");
     private JMenuItem fecharPopUp = new JMenuItem("Cancelar");
     private JPopupMenu popupOpcoes = new JPopupMenu();
 
@@ -119,8 +123,6 @@ class Gui extends JFrame {
         barraComandos.add(jbSair); 		// Botao de Cores
 
         barraComandos.setFloatable(false);//faz a barra nao poder ser mais arrastada
-        
-        
 
         // Área do PopUp
         popupMenu.add(limpezaTotal);
@@ -132,7 +134,8 @@ class Gui extends JFrame {
         // Área do PopUpOpçoes
         popupOpcoes.add(salvarDesenho);
         popupOpcoes.add(carregarDesenho);
-        popupOpcoes.add(deletarDesenho);        
+        popupOpcoes.add(deletarDesenho);
+        popupOpcoes.add(rotacionarTriangulo);
         popupOpcoes.add(fecharPopUp);
         this.add(popupOpcoes);
 
@@ -360,6 +363,16 @@ class Gui extends JFrame {
             		deletarDesenho.setBackground(UIManager.getColor(new Color(238,238,238)));
                 }
             });
+
+            rotacionarTriangulo.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    rotacionarTriangulo.setBackground(Color.lightGray);
+                }
+
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                    rotacionarTriangulo.setBackground(UIManager.getColor(new Color(238,238,238)));
+                }
+            });
             
             fecharPopUp.addMouseListener(new java.awt.event.MouseAdapter() {
             	public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -375,6 +388,12 @@ class Gui extends JFrame {
             	if(!areaDesenho.retrocederVazia())
             		deletar = new SelecionarFiguraDel(areaDesenho);
             	popupOpcoes.setVisible(false);
+            });
+
+            rotacionarTriangulo.addActionListener(j -> {
+                if(!areaDesenho.retrocederVazia())
+                    rotacao = new SelecionarTrianguloRot(areaDesenho);
+                popupOpcoes.setVisible(false);
             });
             
             fecharPopUp.setBackground(UIManager.getColor(new Color(238,238,238)));
