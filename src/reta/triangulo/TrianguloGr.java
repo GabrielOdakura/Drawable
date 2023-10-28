@@ -71,4 +71,6 @@ public class TrianguloGr extends Triangulo{
         reta2.desenharReta(g);
         reta3.desenharReta(g);
     }
+    
+    
 }

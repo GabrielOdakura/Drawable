@@ -33,7 +33,7 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
     private Color corAtual;       // Cor atual do primitivo
     private Color primeiraCorMandala;// Cor das retas da Mandala
     private Color segundaCorMandala; // Cor Circulo Mandala
-    private Color corDeFundo = new Color(238,238,238);
+    private static final Color corDeFundo = new Color(238,238,238);
     private int esp;              // Diametro do ponto
 
     // Para ponto
@@ -348,11 +348,13 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
      * 
      */
     public void retroceder(){ 
-        	primeiraVez = true;
-            segundaVez = false;
-            retrocederStack.add(estruturaDados.get(estruturaDados.size()));//pega o ultimo elemento da estrutura de dados
-            estruturaDados.remove(estruturaDados.size());
-            redesenharED();
+		int aux = estruturaDados.size();
+    	primeiraVez = true;
+        segundaVez = false;
+        retrocederStack.add(estruturaDados.get((aux-1)));//pega o ultimo elemento da estrutura de dados
+        estruturaDados.remove((aux-1));
+        limparTela();
+        redesenharED();
     }
    
     /**retrocederVazia - checa se já existe algum elemento na ED
@@ -376,6 +378,10 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
     	}else {
     		System.out.println("Nao existem elementos para recuperar");
     	}
+    }
+    
+    public boolean recuperarVazia() {
+    	return retrocederStack.isEmpty();
     }
     
     /** redesenharElemento - redesenha um elemento armazenado na stack

@@ -10,7 +10,7 @@ import ponto.Ponto;
 
 public class Triangulo {
 
-    private Ponto ponto1, ponto2, ponto3;
+    private Ponto ponto1, ponto2, ponto3, pontoT;
 
     /**
      * Constroi uma reta com valores (int) de x1, y1 e x2, y2
@@ -67,5 +67,13 @@ public class Triangulo {
 
     public void setPonto3(Ponto ponto3) {
         this.ponto3 = ponto3;
+    }
+    
+    public Ponto getPontoT() {
+        return pontoT;
+    }
+
+    public void setPontoT(Ponto pontoT) {
+        this.pontoT = pontoT;
     }
 }

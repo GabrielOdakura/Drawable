@@ -16,9 +16,10 @@ public class SelecionarFiguraDel {
     private JPanel caixa2 = new JPanel();// serve como um armazenado para outros elementos
     private JLabel nomeElemento = new JLabel();
     private JTextArea textoPontos = new JTextArea();
-    private JButton jbRetroceder = new JButton("<--");
-    private JButton jbAvancar = new JButton("-->");
+    private JButton jbRetroceder = new JButton("◀");
+    private JButton jbAvancar = new JButton("▶");
     private JButton jbDeletar = new JButton("Deletar Elemento");
+    private static final Color corDeFundo = new Color(238,238,238);
 
 
     private Color corRoxo = new Color(174,55,255);
@@ -33,7 +34,10 @@ public class SelecionarFiguraDel {
     }
 
     private void construirTela(){
-        Dimension dim = new Dimension(400,400);
+    	
+        Dimension dim = new Dimension(400,230);
+        telaDeletar.setMinimumSize(dim);
+        telaDeletar.setLocation((dim.width / 2) - (100 / 2), (dim.height / 2) + (500 / 2));
         telaDeletar.setSize(dim);
         telaDeletar.addWindowListener(new WindowAdapter() {
             @Override
@@ -42,6 +46,8 @@ public class SelecionarFiguraDel {
                 super.windowClosing(e);
             }
         });
+        
+        telaDeletar.setResizable(false);
 
         configurarElemento();
 
@@ -59,12 +65,12 @@ public class SelecionarFiguraDel {
         telaDeletar.add(caixa2, BorderLayout.SOUTH);
 
         //config Area de Texto
+        textoPontos.setBackground(corDeFundo);
         textoPontos.setLineWrap(true);
         textoPontos.setEditable(false);
 
         //config Botões
         jbRetroceder.setEnabled(false);
-        System.out.println(areaDesenho.getTamanhoED());
         if(areaDesenho.getTamanhoED() <= 1) jbAvancar.setEnabled(false);
         else jbAvancar.setEnabled(true);
 
@@ -96,15 +102,23 @@ public class SelecionarFiguraDel {
             areaDesenho.deletarEspecifico(indiceAtual);
             if(areaDesenho.retrocederVazia()){
                 nomeElemento.setText("Sem Elementos Restantes");
-                textoPontos.setText("Sem Elementos Restantes");
+                textoPontos.setVisible(false);
                 pintarSaida = false;
                 jbDeletar.setEnabled(false);
+                jbDeletar.setVisible(false);
                 jbAvancar.setEnabled(false);
                 jbRetroceder.setEnabled(false);
             }else {
                 if (indiceAtual != 0) {
                     indiceAtual--;
-                    if(indiceAtual == 0) jbAvancar.setEnabled(false);
+                    if(indiceAtual == 0) {
+                    	jbRetroceder.setEnabled(false);
+                    	jbAvancar.setEnabled(false);
+                    	if(areaDesenho.getTamanhoED() > 1) {
+                    		jbAvancar.setEnabled(true);
+                    	}
+                    	
+                    }
                 }
                 configurarElemento();
                 pintarPontos();
@@ -123,43 +137,41 @@ public class SelecionarFiguraDel {
         String caixaDeTexto;
         if(atual.getTipo() == TipoPrimitivo.PONTO){
             nomeElemento.setText("Ponto");
-            caixaDeTexto = "Ponto X: " + atual.getPonto1().getX() + "Ponto Y: " + + atual.getPonto1().getY();
+            caixaDeTexto = "Ponto X: " + atual.getPonto1().getX() + "\n" + "Ponto Y: " + + atual.getPonto1().getY();
             textoPontos.setText(caixaDeTexto);
         }else if(atual.getTipo() == TipoPrimitivo.RETA){
             nomeElemento.setText("Reta");
-            caixaDeTexto = "Ponto 1 X: " + atual.getPonto1().getX() + " Ponto 1 Y: " + + atual.getPonto1().getY() + "\n"
-                    + "Ponto 2 X: " + atual.getPonto2().getX() + " Ponto 2 Y: " + + atual.getPonto2().getY();
+            caixaDeTexto = "Ponto 1 X: " + atual.getPonto1().getX() + "\n" + "Ponto 1 Y: " + + atual.getPonto1().getY() + "\n"
+                    + "Ponto 2 X: " + atual.getPonto2().getX() + "\n" + "Ponto 2 Y: " + + atual.getPonto2().getY();
             textoPontos.setText(caixaDeTexto);
         }else if(atual.getTipo() == TipoPrimitivo.RETANGULO){
             nomeElemento.setText("Retangulo");
-            caixaDeTexto = "Ponto 1 X: " + atual.getPonto1().getX() + " Ponto 1 Y: " + + atual.getPonto1().getY() + "\n"
-                    + "Ponto 2 X: " + atual.getPonto2().getX() + " Ponto 2 Y: " + + atual.getPonto2().getY() + "\n"
-                    + "Ponto 3 X: " + atual.getPonto1().getX() + " Ponto 3 Y: " + + atual.getPonto2().getY() + "\n"
-                    + "Ponto 4 X: " + atual.getPonto2().getX() + " Ponto 4 Y: " + + atual.getPonto1().getY() + "\n";
+            caixaDeTexto = "Ponto 1 X: " + atual.getPonto1().getX() + "\n" +  "Ponto 1 Y: " + + atual.getPonto1().getY() + "\n"
+                    + "Ponto 2 X: " + atual.getPonto2().getX() + "\n" +  "Ponto 2 Y: " + + atual.getPonto2().getY() + "\n"
+                    + "Ponto 3 X: " + atual.getPonto1().getX() + "\n" +  "Ponto 3 Y: " + + atual.getPonto2().getY() + "\n"
+                    + "Ponto 4 X: " + atual.getPonto2().getX() + "\n" +  "Ponto 4 Y: " + + atual.getPonto1().getY() + "\n";
             textoPontos.setText(caixaDeTexto);
         }else if(atual.getTipo() == TipoPrimitivo.TRIANGULO){
             nomeElemento.setText("Triangulo");
-            caixaDeTexto = "Ponto 1 X: " + atual.getPonto1().getX() + " Ponto 1 Y: " + + atual.getPonto1().getY() + "\n"
-                    + "Ponto 2 X: " + atual.getPonto2().getX() + " Ponto 2 Y: " + + atual.getPonto2().getY() + "\n"
-                    + "Ponto 3 X: " + atual.getPonto3().getX() + " Ponto 3 Y: " + + atual.getPonto3().getY() + "\n";
+            caixaDeTexto = "Ponto 1 X: " + atual.getPonto1().getX() + "\n" +  "Ponto 1 Y: " + + atual.getPonto1().getY() + "\n"
+                    + "Ponto 2 X: " + atual.getPonto2().getX() + "\n" +  "Ponto 2 Y: " + + atual.getPonto2().getY() + "\n"
+                    + "Ponto 3 X: " + atual.getPonto3().getX() + "\n" +  "Ponto 3 Y: " + + atual.getPonto3().getY() + "\n";
             textoPontos.setText(caixaDeTexto);
         }else if(atual.getTipo() == TipoPrimitivo.CIRCULO){
             nomeElemento.setText("Circulo");
-            caixaDeTexto = "Ponto 1 X: " + atual.getPonto1().getX() + " Ponto 1 Y: " + + atual.getPonto1().getY() + "\n"
-                    + "Ponto 2 X: " + atual.getPonto2().getX() + " Ponto 2 Y: " + + atual.getPonto2().getY();
+            caixaDeTexto = "Ponto 1 X: " + atual.getPonto1().getX() + "\n" +  "Ponto 1 Y: " + + atual.getPonto1().getY() + "\n"
+                    + "Ponto 2 X: " + atual.getPonto2().getX() + "\n" +  "Ponto 2 Y: " + + atual.getPonto2().getY();
             textoPontos.setText(caixaDeTexto);
         }else if(atual.getTipo() == TipoPrimitivo.MANDALA){
             nomeElemento.setText("Mandala");
-            caixaDeTexto = "Ponto 1 X: " + atual.getPonto1().getX() + " Ponto 1 Y: " + + atual.getPonto1().getY() + "\n"
-                    + "Ponto 2 X: " + atual.getPonto2().getX() + " Ponto 2 Y: " + + atual.getPonto2().getY();
+            caixaDeTexto = "Ponto 1 X: " + atual.getPonto1().getX() + "\n" +  "Ponto 1 Y: " + + atual.getPonto1().getY() + "\n"
+                    + "Ponto 2 X: " + atual.getPonto2().getX() + "\n" +  "Ponto 2 Y: " + + atual.getPonto2().getY();
             textoPontos.setText(caixaDeTexto);
         }
     }
 
     public void toggleVisible(){
-        if(visible) visible = false;
-        else visible = true;
-        telaDeletar.setVisible(visible);
+        telaDeletar.setVisible(false);
     }
 
     public void pintarPontos(){
@@ -189,7 +201,7 @@ public class SelecionarFiguraDel {
             FiguraPontos.desenharPonto(g,(int) atual.getPonto3().getX(),(int) atual.getPonto3().getY(),
                     "", atual.getEspessura(), corRoxo);
         }else if(atual.getTipo() == TipoPrimitivo.CIRCULO){
-            FiguraPontos.desenharPonto(g,(int) atual.getPonto1().getX(),(int) atual.getPonto1().getY(),
+            FiguraPontos.desenharPonto(g,(int) (atual.getPonto1().getX()),(int) atual.getPonto1().getY(),
                     "", atual.getEspessura(), corRoxo);
             FiguraPontos.desenharPonto(g,(int) atual.getPonto2().getX(),(int) atual.getPonto2().getY(),
                     "", atual.getEspessura(), corRoxo);
@@ -228,10 +240,12 @@ public class SelecionarFiguraDel {
             FiguraPontos.desenharPonto(g,(int) atual.getPonto3().getX(),(int) atual.getPonto3().getY(),
                     "", atual.getEspessura(), atual.getCorFigura());
         }else if(atual.getTipo() == TipoPrimitivo.CIRCULO){
-            FiguraPontos.desenharPonto(g,(int) atual.getPonto1().getX(),(int) atual.getPonto1().getY(),
+            FiguraPontos.desenharPonto(g,(int) (atual.getPonto1().getX()),(int) atual.getPonto1().getY(),
                     "", atual.getEspessura(), atual.getCorFigura());
             FiguraPontos.desenharPonto(g,(int) atual.getPonto2().getX(),(int) atual.getPonto2().getY(),
                     "", atual.getEspessura(), atual.getCorFigura());
+            areaDesenho.limparTela();
+            areaDesenho.redesenharED();
         }else if(atual.getTipo() == TipoPrimitivo.MANDALA){
             FiguraPontos.desenharPonto(g,(int) atual.getPonto1().getX(),(int) atual.getPonto1().getY(),
                     "", atual.getEspessura(), atual.getCorFigura());
@@ -240,9 +254,5 @@ public class SelecionarFiguraDel {
         }
     }
 
-    public void fecharJanela(){
-
-    }
-
-
+   
 }
