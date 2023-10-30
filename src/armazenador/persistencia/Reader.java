@@ -13,10 +13,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Reader {
-    public void readJson(int altura, int largura, ArrayList<Object> array) {
+    public void lerJson(int largura, int altura, String nomeArquivo, ArrayList<Object> array) {
         try {
             // Ler o arquivo JSON
-            FileReader reader = new FileReader("exemplo1.json");
+            FileReader reader = new FileReader(nomeArquivo + ".json");
 
             // Criar um objeto JSON a partir do arquivo
             JSONObject jsonObject = new JSONObject(new JSONTokener(reader));
@@ -62,12 +62,13 @@ public class Reader {
                 for (int i = 0; i < retaArray.length(); i++) {
                     JSONObject reta = retaArray.getJSONObject(i);
                     String id = reta.getString("id");
-                    double esp = reta.getDouble("esp");
+
 
                     // Acessar os pontos p1 e p2
                     JSONObject p1 = reta.getJSONObject("p1");
                     JSONObject p2 = reta.getJSONObject("p2");
 
+                    double esp = p1.getDouble("esp");
                     double p1x = p1.getDouble("x");
                     double p1y = p1.getDouble("y");
                     double p2x = p2.getDouble("x");
@@ -103,16 +104,17 @@ public class Reader {
                 for (int i = 0; i < circuloArray.length(); i++) {
                     JSONObject circulo = circuloArray.getJSONObject(i);
                     String id = circulo.getString("id");
-                    double esp = circulo.getDouble("esp");
 
                     // Acessar informacoes do circulo
                     JSONObject centro = circulo.getJSONObject("centro");
+                    double esp = centro.getDouble("esp");
                     double centroX = centro.getDouble("x");
                     double centroY = centro.getDouble("y");
-                    double raio = circulo.getDouble("raio");
+                    JSONObject raio = circulo.getJSONObject("raio");
+                    double auxRaio = raio.getDouble("raio");
                     centroX *= largura;
                     centroY *= altura;
-                    raio *= largura;
+                    auxRaio *= largura;
 
                     // Acessar a chave "cor" para obter os valores de R, G e B
                     JSONObject cor = circulo.getJSONObject("cor");
@@ -123,7 +125,7 @@ public class Reader {
                     Color aux = new Color(r,g,b);
 
 
-                    Armazenador temp = new Armazenador((int) centroX,(int) centroY, (int) (centroX + raio),(int) centroY, TipoPrimitivo.CIRCULO,(int) esp, aux, null);
+                    Armazenador temp = new Armazenador((int) centroX,(int) centroY, (int) (centroX + auxRaio),(int) centroY, TipoPrimitivo.CIRCULO,(int) esp, aux, null);
                     array.add(temp);
 
                     //debugging
@@ -142,13 +144,13 @@ public class Reader {
                 for (int i = 0; i < trianguloArray.length(); i++) {
                     JSONObject triangulo = trianguloArray.getJSONObject(i);
                     String id = triangulo.getString("id");
-                    double esp = triangulo.getDouble("esp");
 
                     // Acessar informacoes dos tres pontos do triangulo
                     JSONObject p1 = triangulo.getJSONObject("p1");
                     JSONObject p2 = triangulo.getJSONObject("p2");
                     JSONObject p3 = triangulo.getJSONObject("p3");
 
+                    double esp = p1.getDouble("esp");
                     double p1x = p1.getDouble("x");
                     double p1y = p1.getDouble("y");
                     double p2x = p2.getDouble("x");
@@ -189,12 +191,12 @@ public class Reader {
                 for (int i = 0; i < retanguloArray.length(); i++) {
                     JSONObject retangulo = retanguloArray.getJSONObject(i);
                     String id = retangulo.getString("id");
-                    double esp = retangulo.getDouble("esp");
 
                     // Acessar informacoes dos dois pontos do retangulo
                     JSONObject p1 = retangulo.getJSONObject("p1");
                     JSONObject p2 = retangulo.getJSONObject("p2");
 
+                    double esp = p1.getDouble("esp");
                     double p1x = p1.getDouble("x");
                     double p1y = p1.getDouble("y");
                     double p2x = p2.getDouble("x");
@@ -230,12 +232,12 @@ public class Reader {
                 for (int i = 0; i < mandalaArray.length(); i++) {
                     JSONObject mandala = mandalaArray.getJSONObject(i);
                     String id = mandala.getString("id");
-                    double esp = mandala.getDouble("esp");
 
                     // Acessar informacoes dos pontos da mandala
                     JSONObject p1 = mandala.getJSONObject("p1");
                     JSONObject p2 = mandala.getJSONObject("p2");
 
+                    double esp = p1.getDouble("esp");
                     double p1x = p1.getDouble("x");
                     double p1y = p1.getDouble("y");
                     double p2x = p2.getDouble("x");
@@ -253,14 +255,17 @@ public class Reader {
                     int g1 = cor1.getInt("g");
                     int b1 = cor1.getInt("b");
                     Color caux1 = new Color(r1,g1,b1);
+                    System.out.println(caux1);
 
                     int r2 = cor2.getInt("r");
                     int g2 = cor2.getInt("g");
                     int b2 = cor2.getInt("b");
                     Color caux2 = new Color(r2,g2,b2);
+                    System.out.println(caux2);
 
 
                     Armazenador temp = new Armazenador((int) p1x,(int) p1y, (int) p2x,(int) p2y, TipoPrimitivo.MANDALA,(int) esp, caux1, caux2);
+                    System.out.println(temp);
                     array.add(temp);
                     //debugging
                     /*

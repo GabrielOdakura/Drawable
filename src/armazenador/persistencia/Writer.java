@@ -12,7 +12,7 @@ import tipoPrimitivo.TipoPrimitivo;
 public class Writer {
 	public void escreverJSON(int largura, int altura, String nomeArquivo, ArrayList<Object> lista) {
 		Armazenador temp;
-		
+
 		JSONObject desenho = new JSONObject();
         JSONObject root = new JSONObject();
         JSONArray pontoArray = new JSONArray();
@@ -34,7 +34,7 @@ public class Writer {
         		ponto.put("id", "ponto_" + indicePonto);
         		ponto.put("esp", temp.getEspessura());
         		ponto.put("x", temp.getPonto1().getX() / largura);
-        		ponto.put("y", temp.getPonto1().getX() / altura);
+        		ponto.put("y", temp.getPonto1().getY() / altura);
         		
         		//cor ponto
         		JSONObject cor = pegarCor(temp);
@@ -118,11 +118,13 @@ public class Writer {
 				JSONObject ponto2 = pegarPonto2(temp, largura, altura);
 				
 				//cor ponto
-        		JSONObject cor = pegarCor(temp);
+        		JSONObject cor1 = pegarCor(temp);
+				JSONObject cor2 = pegarCor2(temp);
         		
         		mandala.put("p1", ponto1);
         		mandala.put("p2", ponto2);
-        		mandala.put("cor", cor);
+        		mandala.put("cor1", cor1);
+				mandala.put("cor2", cor2);
         		mandalaArray.put(mandala);
         		indiceMandala++;
 			}
@@ -151,6 +153,14 @@ public class Writer {
 		cor.put("r", aux.getCorFigura().getRed());
 		cor.put("g", aux.getCorFigura().getGreen());
 		cor.put("b", aux.getCorFigura().getBlue());
+		return cor;
+	}
+
+	private JSONObject pegarCor2(Armazenador aux) {
+		JSONObject cor = new JSONObject();
+		cor.put("r", aux.getSegundaCorMandala().getRed());
+		cor.put("g", aux.getSegundaCorMandala().getGreen());
+		cor.put("b", aux.getSegundaCorMandala().getBlue());
 		return cor;
 	}
 	
