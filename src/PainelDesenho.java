@@ -6,12 +6,12 @@ import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.Stack;
 
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.UIManager;
+import javax.swing.*;
 
 import Mandala.FiguraMandalas;
 import armazenador.Armazenador;
+import armazenador.persistencia.Reader;
+import armazenador.persistencia.Writer;
 import ponto.Circulo.FiguraCirculos;
 import ponto.FiguraPontos;
 import reta.FiguraRetas;
@@ -35,6 +35,7 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
     private Color segundaCorMandala; // Cor Circulo Mandala
     private static final Color corDeFundo = new Color(238,238,238);
     private int esp;              // Diametro do ponto
+    private String nomeArquivo;
 
     // Para ponto
     private int x, y;
@@ -309,6 +310,20 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
                 i++;
             }
         }
+    }
+    public void writeJSON(){
+        nomeArquivo = JOptionPane.showInputDialog("Nome do Arquivo a ser Salvado: ");
+        Writer salvar = new Writer();
+        salvar.escreverJSON(this.getWidth(),this.getHeight(), nomeArquivo, estruturaDados);
+    }
+
+    public void readJSON(){
+        Reader ler = new Reader();
+        estruturaDados.clear();
+        nomeArquivo = JOptionPane.showInputDialog("Nome do Arquivo a ser Lido: ");
+        ler.lerJson(this.getWidth(),this.getHeight(), nomeArquivo, estruturaDados);
+        limparTela();
+        redesenharED();
     }
 
     public void limparED(){

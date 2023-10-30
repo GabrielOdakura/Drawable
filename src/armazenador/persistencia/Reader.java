@@ -263,7 +263,6 @@ public class Reader {
                     Color caux2 = new Color(r2,g2,b2);
                     System.out.println(caux2);
 
-
                     Armazenador temp = new Armazenador((int) p1x,(int) p1y, (int) p2x,(int) p2y, TipoPrimitivo.MANDALA,(int) esp, caux1, caux2);
                     System.out.println(temp);
                     array.add(temp);

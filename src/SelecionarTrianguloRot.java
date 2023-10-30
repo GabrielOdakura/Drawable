@@ -46,6 +46,14 @@ public class SelecionarTrianguloRot {
 
        telaRotacionar.setResizable(false);
 
+       configurarElemento();
+
+       String entradaUser;
+
+       entradaUser = JOptionPane.showInputDialog("Angulo de Rotação: ");
+
+       double i = Float.parseFloat(entradaUser);
+
        //adicionar elementos no painel (caixa3)
        caixa3.add(nomeTriangulo, BorderLayout.WEST);
        caixa3.add(textoPonto, BorderLayout.CENTER);

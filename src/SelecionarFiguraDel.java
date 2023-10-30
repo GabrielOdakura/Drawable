@@ -63,6 +63,7 @@ public class SelecionarFiguraDel {
         telaDeletar.add(caixa, BorderLayout.NORTH);
         telaDeletar.add(caixa2, BorderLayout.SOUTH);
 
+
         //config Area de Texto
         textoPontos.setBackground(corDeFundo);
         textoPontos.setLineWrap(true);

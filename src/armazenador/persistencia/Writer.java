@@ -1,4 +1,5 @@
 package armazenador.persistencia;
+import java.awt.*;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -118,7 +119,7 @@ public class Writer {
 				JSONObject ponto2 = pegarPonto2(temp, largura, altura);
 				
 				//cor ponto
-        		JSONObject cor1 = pegarCor(temp);
+        		JSONObject cor1 = pegarCor1(temp);
 				JSONObject cor2 = pegarCor2(temp);
         		
         		mandala.put("p1", ponto1);
@@ -149,6 +150,14 @@ public class Writer {
 	}
 	
 	private JSONObject pegarCor(Armazenador aux) {
+		JSONObject cor = new JSONObject();
+		cor.put("r", aux.getCorFigura().getRed());
+		cor.put("g", aux.getCorFigura().getGreen());
+		cor.put("b", aux.getCorFigura().getBlue());
+		return cor;
+	}
+
+	private JSONObject pegarCor1(Armazenador aux) {
 		JSONObject cor = new JSONObject();
 		cor.put("r", aux.getCorFigura().getRed());
 		cor.put("g", aux.getCorFigura().getGreen());

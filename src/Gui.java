@@ -40,6 +40,8 @@ class Gui extends JFrame {
     //Painel de Rotação
     private SelecionarTrianguloRot rotacao;
 
+    private SelecionarEscala escala;
+
     // Botoes
     private JButton jbDesfazer = new JButton("↩");
     private JButton jbRefazer = new JButton("↪");
@@ -71,6 +73,7 @@ class Gui extends JFrame {
     private JMenuItem carregarDesenho = new JMenuItem("Carregar Desenho");
     private JMenuItem deletarDesenho = new JMenuItem("Deletar do Desenho");
     private JMenuItem rotacionarTriangulo = new JMenuItem("Rotacionar Triangulo");
+    private JMenuItem escalaDesenho = new JMenuItem("Escalonamento do Desenho");
     private JMenuItem fecharPopUp = new JMenuItem("Cancelar");
     private JPopupMenu popupOpcoes = new JPopupMenu();
 
@@ -136,6 +139,7 @@ class Gui extends JFrame {
         popupOpcoes.add(carregarDesenho);
         popupOpcoes.add(deletarDesenho);
         popupOpcoes.add(rotacionarTriangulo);
+        popupOpcoes.add(escalaDesenho);
         popupOpcoes.add(fecharPopUp);
         this.add(popupOpcoes);
 
@@ -158,6 +162,12 @@ class Gui extends JFrame {
             if(deletar != null) {
             	deletar.toggleVisible();
             }
+            if(rotacao != null) {
+                rotacao.toggleVisible2();
+            }
+            if(escala != null) {
+                escala.toggleVisible3();
+            }
         });                             
         jbReta.addActionListener(e -> {
         	
@@ -170,6 +180,12 @@ class Gui extends JFrame {
             areaDesenho.setTipo(tipoAtual);
             if(deletar != null) {
             	deletar.toggleVisible();
+            }
+            if(rotacao != null) {
+                rotacao.toggleVisible2();
+            }
+            if(escala != null) {
+                escala.toggleVisible3();
             }
         });
         jbRetangulo.addActionListener(e -> {
@@ -184,6 +200,12 @@ class Gui extends JFrame {
             if(deletar != null) {
             	deletar.toggleVisible();
             }
+            if(rotacao != null) {
+                rotacao.toggleVisible2();
+            }
+            if(escala != null) {
+                escala.toggleVisible3();
+            }
         });
         jbTriangulo.addActionListener(e -> {
         	
@@ -197,6 +219,12 @@ class Gui extends JFrame {
             if(deletar != null) {
             	deletar.toggleVisible();
             }
+            if(rotacao != null) {
+                rotacao.toggleVisible2();
+            }
+            if(escala != null) {
+                escala.toggleVisible3();
+            }
         });
         jbCirculo.addActionListener(e -> {
         	
@@ -209,6 +237,12 @@ class Gui extends JFrame {
             areaDesenho.setTipo(tipoAtual);
             if(deletar != null) {
             	deletar.toggleVisible();
+            }
+            if(rotacao != null) {
+                rotacao.toggleVisible2();
+            }
+            if(escala != null) {
+                escala.toggleVisible3();
             }
         });
         jbMandala.addActionListener(e ->{
@@ -225,7 +259,12 @@ class Gui extends JFrame {
             if(deletar != null) {
             	deletar.toggleVisible();
             }
-            
+            if(rotacao != null) {
+                rotacao.toggleVisible2();
+            }
+            if(escala != null) {
+                escala.toggleVisible3();
+            }
         });
         jbRedesenhar.addActionListener(e ->{
         	
@@ -237,7 +276,10 @@ class Gui extends JFrame {
             areaDesenho.redesenharED();
             if(deletar != null) {
             	deletar.toggleVisible();
-            }            
+            }
+            if(escala != null) {
+                escala.toggleVisible3();
+            }
         });
         jbLimpar.addActionListener(e -> {
             popupMenu.setVisible(true);
@@ -320,7 +362,13 @@ class Gui extends JFrame {
             });
             if(deletar != null) {
             	deletar.toggleVisible();
-            }                      
+            }
+            if(rotacao != null) {
+                rotacao.toggleVisible2();
+            }
+            if(escala != null) {
+                escala.toggleVisible3();
+            }
         });   
         
         jbOpcoes.addActionListener(e -> {
@@ -332,6 +380,7 @@ class Gui extends JFrame {
             salvarDesenho.setToolTipText("Salvar Desenho em um Arquivo");
             carregarDesenho.setToolTipText("Ler o Desenho de um Arquivo");
             deletarDesenho.setToolTipText("Deletar Elemento do Desenho");
+            escalaDesenho.setToolTipText("Escalonar do Desenho");
             fecharPopUp.setToolTipText("Fechar o Popup");
             
             salvarDesenho.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -343,7 +392,7 @@ class Gui extends JFrame {
             		salvarDesenho.setBackground(UIManager.getColor(new Color(238,238,238)));
                 }
             });
-            
+
             carregarDesenho.addMouseListener(new java.awt.event.MouseAdapter() {
             	public void mouseEntered(java.awt.event.MouseEvent evt) {
             		carregarDesenho.setBackground(Color.lightGray);
@@ -373,7 +422,15 @@ class Gui extends JFrame {
                     rotacionarTriangulo.setBackground(UIManager.getColor(new Color(238,238,238)));
                 }
             });
-            
+            escalaDesenho.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    escalaDesenho.setBackground(Color.lightGray);
+                }
+
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                    escalaDesenho.setBackground(UIManager.getColor(new Color(238,238,238)));
+                }
+            });
             fecharPopUp.addMouseListener(new java.awt.event.MouseAdapter() {
             	public void mouseEntered(java.awt.event.MouseEvent evt) {
             		fecharPopUp.setBackground(Color.lightGray);
@@ -383,6 +440,16 @@ class Gui extends JFrame {
             		fecharPopUp.setBackground(UIManager.getColor(new Color(238,238,238)));
                 }
             });
+
+            salvarDesenho.addActionListener(b ->{
+                popupOpcoes.setVisible(false);
+                areaDesenho.writeJSON();
+            });
+
+            carregarDesenho.addActionListener(c ->{
+                popupOpcoes.setVisible(false);
+                areaDesenho.readJSON();
+            });
                                   
             deletarDesenho.addActionListener(j -> {
             	if(!areaDesenho.retrocederVazia())
@@ -391,15 +458,31 @@ class Gui extends JFrame {
             });
 
             rotacionarTriangulo.addActionListener(j -> {
+                popupOpcoes.setVisible(false);
                 if(!areaDesenho.retrocederVazia())
                     rotacao = new SelecionarTrianguloRot(areaDesenho);
+            });
+
+            escalaDesenho.addActionListener(j -> {
                 popupOpcoes.setVisible(false);
+                if(!areaDesenho.retrocederVazia())
+                    escala = new SelecionarEscala(areaDesenho);
             });
             
             fecharPopUp.setBackground(UIManager.getColor(new Color(238,238,238)));
             fecharPopUp.addActionListener(j ->{
                 popupOpcoes.setVisible(false);
-            });   
+            });
+
+            if(deletar != null) {
+                deletar.toggleVisible();
+            }
+            if(rotacao != null) {
+                rotacao.toggleVisible2();
+            }
+            if(escala != null) {
+                escala.toggleVisible3();
+            }
             
         });
                         
@@ -414,7 +497,13 @@ class Gui extends JFrame {
         	areaDesenho.retroceder();
         	if(deletar != null) {
             	deletar.toggleVisible();
-            }        	        	
+            }
+            if(rotacao != null) {
+                rotacao.toggleVisible2();
+            }
+            if(escala != null) {
+                escala.toggleVisible3();
+            }
         });
         jbRefazer.addActionListener(i -> {
         	
@@ -427,7 +516,13 @@ class Gui extends JFrame {
         	areaDesenho.recuperar();
         	if(deletar != null) {
             	deletar.toggleVisible();
-            }        	        	
+            }
+            if(rotacao != null) {
+                rotacao.toggleVisible2();
+            }
+            if(escala != null) {
+                escala.toggleVisible3();
+            }
         });
         jbCor.addActionListener(e -> {
         	
