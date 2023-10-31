@@ -1,5 +1,7 @@
+package userInterface;
 import armazenador.Armazenador;
 import ponto.FiguraPontos;
+import reta.triangulo.TransfTriangulo;
 import tipoPrimitivo.TipoPrimitivo;
 
 import javax.swing.*;
@@ -54,7 +56,7 @@ public class SelecionarEscala {
 
         double i = Float.parseFloat(entradaUserX);
 
-        entradaUserY = JOptionPane.showInputDialog("Fator da Escala X: ");
+        entradaUserY = JOptionPane.showInputDialog("Fator da Escala Y: ");
 
         double l = Float.parseFloat(entradaUserY);
 
@@ -106,7 +108,6 @@ public class SelecionarEscala {
         });
 
         jbEscalar.addActionListener(e ->{
-            areaDesenho.deletarEspecifico(indiceAtual);
             if(areaDesenho.retrocederVazia()){
                 nomeEscala.setText("Sem Elementos Restantes");
                 textoPonto.setVisible(false);
@@ -128,6 +129,14 @@ public class SelecionarEscala {
                 }
                 configurarElemento();
                 pintarPontosTri();
+                Armazenador temp = areaDesenho.buscarED(indiceAtual);
+                TransfTriangulo rotacionar = new TransfTriangulo(areaDesenho.getX1(), areaDesenho.getY1());
+                int sX = Integer.parseInt(entradaUserX);
+                int sY = Integer.parseInt(entradaUserY);
+                Armazenador transformado = rotacionar.escalaTriangulo(temp, sX, sY);
+                areaDesenho.deletarEspecifico(indiceAtual);
+                areaDesenho.inserirED(transformado);
+                areaDesenho.redesenharTrianguloTransf(transformado);
             }
         });
 

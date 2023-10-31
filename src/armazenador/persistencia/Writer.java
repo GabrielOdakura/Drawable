@@ -49,7 +49,7 @@ public class Writer {
 				
 				//coordenadas
 				JSONObject centro = pegarPonto1(temp, largura, altura);
-				JSONObject raio = calcularRaio(temp, largura);
+				double raio = calcularRaio(temp, largura);
 				
 				
         		//cor ponto
@@ -57,6 +57,7 @@ public class Writer {
         		
         		circulo.put("raio", raio);
         		circulo.put("centro", centro);
+				circulo.put("esp", temp.getEspessura());
         		circulo.put("cor", cor);
         		circuloArray.put(circulo);
         		indiceCirculo++;
@@ -73,6 +74,7 @@ public class Writer {
         		
 				retangulo.put("p1", ponto1);
 				retangulo.put("p2", raio);
+				retangulo.put("esp", temp.getEspessura());
 				retangulo.put("cor", cor);
 				retanguloArray.put(retangulo);
 				indiceRetangulo++;
@@ -91,6 +93,7 @@ public class Writer {
 				triangulo.put("p1", ponto1);
 				triangulo.put("p2", ponto2);
 				triangulo.put("p3", ponto3);
+				triangulo.put("esp", temp.getEspessura());
 				triangulo.put("cor", cor);
 				trianguloArray.put(triangulo);
 				indiceTriangulo++;
@@ -107,6 +110,7 @@ public class Writer {
         		
 				reta.put("p1", ponto1);
 				reta.put("p2", ponto2);
+				reta.put("esp", temp.getEspessura());
 				reta.put("cor", cor);
 				retaArray.put(reta);
 				indiceReta++;
@@ -124,6 +128,7 @@ public class Writer {
         		
         		mandala.put("p1", ponto1);
         		mandala.put("p2", ponto2);
+				mandala.put("esp", temp.getEspessura());
         		mandala.put("cor1", cor1);
 				mandala.put("cor2", cor2);
         		mandalaArray.put(mandala);
@@ -175,7 +180,6 @@ public class Writer {
 	
 	private JSONObject pegarPonto1(Armazenador aux, int largura, int altura) {
 		JSONObject ponto = new JSONObject();
-		ponto.put("esp", aux.getEspessura());
 		ponto.put("x", aux.getPonto1().getX() / largura);
 		ponto.put("y", aux.getPonto1().getY() / altura);
 		return ponto;
@@ -183,7 +187,6 @@ public class Writer {
 	
 	private JSONObject pegarPonto2(Armazenador aux, int largura, int altura) {
 		JSONObject ponto = new JSONObject();
-		ponto.put("esp", aux.getEspessura());
 		ponto.put("x", aux.getPonto2().getX() / largura);
 		ponto.put("y", aux.getPonto2().getY() / altura);
 		return ponto;
@@ -191,21 +194,18 @@ public class Writer {
 	
 	private JSONObject pegarPonto3(Armazenador aux, int largura, int altura) {
 		JSONObject ponto = new JSONObject();
-		ponto.put("esp", aux.getEspessura());
 		ponto.put("x", aux.getPonto3().getX() / largura);
 		ponto.put("y", aux.getPonto3().getY() / altura);
 		return ponto;
 	}
 	
-	private JSONObject calcularRaio(Armazenador aux, int largura) {
+	private double calcularRaio(Armazenador aux, int largura) {
 		double x1 = aux.getPonto1().getX();
 		double x2 = aux.getPonto2().getX();
 		double y1 = aux.getPonto1().getY();
 		double y2 = aux.getPonto2().getY();
 		double calcRaio = Math.sqrt(Math.pow((x1 - x2),2) + Math.pow((y1 - y2),2));
 		calcRaio /= largura;
-		JSONObject raio = new JSONObject();
-		raio.put("raio", calcRaio);
-		return raio;
+		return calcRaio;
 	}
 }

@@ -2,46 +2,55 @@ package reta.triangulo;
 
 import java.awt.*;
 
+import userInterface.*;
+import armazenador.Armazenador;
 import reta.RetaGr;
+import tipoPrimitivo.TipoPrimitivo;
 
-public class TransfTriangulo extends Triangulo{
+public class TransfTriangulo {
 
-    int x1 = (int) getPonto1().getX();
-    int x2 = (int) getPonto2().getX();
-    int x3 = (int) getPonto3().getX();
-    int y1 = (int) getPonto1().getY();
-    int y2 = (int) getPonto2().getY();
-    int y3 = (int) getPonto3().getY();
+    private Armazenador atual;
+
 
     //Ponto selecionado pelo Usuário para rotação
-    int xT = (int) getPontoT().getX();
-    int yT = (int) getPontoT().getY();
-    public TransfTriangulo(int x1, int y1, int x2, int y2, int x3, int y3) {
-        super(x1, y1, x2, y2, x3, y3);
+    int xT;
+    int yT;
+    public TransfTriangulo(int xT, int yT) {
+    	this.xT = xT;
+    	this.yT = yT;
     }
+    
 
-    public void escalaTriangulo(int x1, int y1, int x2, int y2, int x3, int y3, int Sx, int Sy, Graphics g, String nome, int espessura, Color corAtual) {
-
-        //Ponto selecionado pelo Usuário para escala
-        int xT = (int) getPontoT().getX();
-        int yT = (int) getPontoT().getY();
+    public Armazenador escalaTriangulo(Armazenador arm, int Sx, int Sy) {
+        
+        double x1 = arm.getPonto1().getX();
+    	double x2 = arm.getPonto1().getX();
+    	double x3 = arm.getPonto1().getX();
+    	double y1 = arm.getPonto1().getY();
+    	double y2 = arm.getPonto1().getY();
+    	double y3 = arm.getPonto1().getY();
 
         //Novos pontos após o escalonamento
-        int x1T = Sx* x1 + (1-Sx)*xT;
-        int y1T = Sy* y1 *(1-Sy)*yT;
+        int x1T = (int) (Sx* x1 + (1-Sx)*xT);
+        int y1T = (int) (Sy* y1 *(1-Sy)*yT);
         
-        int x2T = Sx* x2 + (1-Sx)*xT;
-        int y2T = Sy* y2 *(1-Sy)*yT;
+        int x2T = (int) (Sx* x2 + (1-Sx)*xT);
+        int y2T = (int) (Sy* y2 *(1-Sy)*yT);
         
-        int x3T = Sx* x3 + (1-Sx)*xT;
-        int y3T = Sy* y3 *(1-Sy)*yT;
+        int x3T = (int) (Sx* x3 + (1-Sx)*xT);
+        int y3T = (int) (Sy* y3 *(1-Sy)*yT);
 
-        TrianguloGr triangulo = new TrianguloGr(x1T,y1T,x2T,y2T,x3T,y3T,nome,espessura,corAtual);
-        triangulo.desenharTriangulo(g);
+        return new Armazenador(x1T,y1T,x2T,y2T,x3T,y3T,TipoPrimitivo.TRIANGULO,arm.getEspessura(),arm.getCorFigura());
     }
-    public void RotacionarTriangulo(int x1, int y1, int x2, int y2, int x3, int y3, double theta, Graphics g, String nome, int espessura, Color corAtual){
-
-        // double theta = valor fornecido pelo usuário
+    public Armazenador rotacionarTriangulo(double theta, Armazenador arm){
+    
+    	double x1 = arm.getPonto1().getX();
+    	double x2 = arm.getPonto1().getX();
+    	double x3 = arm.getPonto1().getX();
+    	double y1 = arm.getPonto1().getY();
+    	double y2 = arm.getPonto1().getY();
+    	double y3 = arm.getPonto1().getY();
+    	
         theta = Math.toRadians(theta);
 
         int x1T = (int) (xT + (x1 - xT)* Math.cos(theta) - (y1-yT)* Math.sin(theta));
@@ -53,7 +62,7 @@ public class TransfTriangulo extends Triangulo{
         int x3T = (int) (xT + (x3 - xT)* Math.cos(theta) - (y3-yT)* Math.sin(theta));
         int y3T = (int) (yT + (x3 - xT)* Math.sin(theta) + (y3-yT)* Math.cos(theta));
 
-        TrianguloGr triangulo = new TrianguloGr(x1T,y1T,x2T,y2T,x3T,y3T,nome,espessura,corAtual);
-        triangulo.desenharTriangulo(g);
+        return new Armazenador(x1T,y1T,x2T,y2T,x3T,y3T,TipoPrimitivo.TRIANGULO,arm.getEspessura(),arm.getCorFigura());
+        
     }
 }

@@ -1,3 +1,4 @@
+package userInterface;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
@@ -37,10 +38,8 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
     private int esp;              // Diametro do ponto
     private String nomeArquivo;
 
-    // Para ponto
-    private int x, y;
 
-    // Para reta, retangulo e triangulo
+    // Para ponto, reta, retangulo e triangulo
     private int x1, y1, x2, y2, x3, y3;
 
     // selecionar primeiro click do mouse
@@ -165,6 +164,14 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 	public void setPrimeiraCorMandala(Color primeiraCorMandala) {
 		this.primeiraCorMandala = primeiraCorMandala;
 	}
+	
+	public int getX1() {
+		return x1;
+	}
+	
+	public int getY1() {
+		return y1;
+	}
 
 	/**
      * Metodo chamado quando o paint eh acionado
@@ -271,6 +278,12 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
                 retrocederStack.clear();
                 paint(g);
             }
+        } else if (tipo == TipoPrimitivo.ROTACAO){
+            x1 = e.getX();
+            y1 = e.getY();
+        } else if (tipo == TipoPrimitivo.ESCALA){
+            x1 = e.getX();
+            y1 = e.getY();
         }
     }     
 
@@ -341,10 +354,15 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
     public int getTamanhoED(){
         return estruturaDados.size();
     }
+    
 
 
     public Armazenador buscarED(int indice){
         return (Armazenador) estruturaDados.get(indice);// pega o indice da busca e procura na ArrayList
+    }
+    
+    public void inserirED(Armazenador inserir) {
+    	estruturaDados.add(inserir);
     }
 
     /** deletarEspecifico - deleta o elemento especifico da ED e coloca na Stack para voltar
@@ -422,6 +440,22 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
     		if (temporario.getTipo() == TipoPrimitivo.MANDALA){
     			segundaCorMandala = temporario.getSegundaCorMandala();
     		}
+        desenharPrimitivos(g);
+    }
+    
+    public void redesenharTrianguloTransf(Armazenador temporario){
+    	Graphics g = getGraphics();
+			x1 = (int) temporario.getPonto1().getX();
+			y1 = (int) temporario.getPonto1().getY();
+			x2 = (int) temporario.getPonto2().getX();
+        	y2 = (int) temporario.getPonto2().getY();
+			x3 = (int) temporario.getPonto3().getX();
+        	y3 = (int) temporario.getPonto3().getY();
+    		esp = temporario.getEspessura();
+    		tipo = temporario.getTipo();
+    		corAtual = temporario.getCorFigura();
+    		estruturaDados.add(temporario);
+    		
         desenharPrimitivos(g);
     }
     

@@ -1,3 +1,4 @@
+package userInterface;
 import ponto.FiguraPontos;
 import tipoPrimitivo.TipoPrimitivo;
 
@@ -14,7 +15,7 @@ import javax.swing.*;
  * @author Breno Rodrigues, Bruno Novo, Gabriel Odakura, Julio Arakaki
  * @version 20230905
  */
-class Gui extends JFrame {
+public class Gui extends JFrame {
     // Tipo Atual de primitivo
     private TipoPrimitivo tipoAtual = TipoPrimitivo.PONTO;
 
@@ -459,14 +460,20 @@ class Gui extends JFrame {
 
             rotacionarTriangulo.addActionListener(j -> {
                 popupOpcoes.setVisible(false);
-                if(!areaDesenho.retrocederVazia())
+                if(!areaDesenho.retrocederVazia()) {
+                    tipoAtual = TipoPrimitivo.ROTACAO;
+                    areaDesenho.setTipo(tipoAtual);
                     rotacao = new SelecionarTrianguloRot(areaDesenho);
+                }
             });
 
             escalaDesenho.addActionListener(j -> {
                 popupOpcoes.setVisible(false);
-                if(!areaDesenho.retrocederVazia())
+                if(!areaDesenho.retrocederVazia()) {
+                    tipoAtual = TipoPrimitivo.ESCALA;
+                    areaDesenho.setTipo(tipoAtual);
                     escala = new SelecionarEscala(areaDesenho);
+                }
             });
             
             fecharPopUp.setBackground(UIManager.getColor(new Color(238,238,238)));

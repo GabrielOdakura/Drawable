@@ -6,5 +6,5 @@ package tipoPrimitivo;
  * @version 20220815
  */
 public enum TipoPrimitivo {
-    PONTO, RETA, CIRCULO, RETANGULO, TRIANGULO, MANDALA, NENHUM
+    PONTO, RETA, CIRCULO, RETANGULO, TRIANGULO, MANDALA, ROTACAO, ESCALA, NENHUM
 }

@@ -1,5 +1,7 @@
+package userInterface;
 import armazenador.Armazenador;
 import ponto.FiguraPontos;
+import reta.triangulo.TransfTriangulo;
 import tipoPrimitivo.TipoPrimitivo;
 
 import javax.swing.*;
@@ -100,7 +102,6 @@ public class SelecionarTrianguloRot {
        });
 
        jbRotacao.addActionListener(e ->{
-           areaDesenho.deletarEspecifico(indiceAtual);
            if(areaDesenho.retrocederVazia()){
                nomeTriangulo.setText("Sem Elementos Restantes");
                textoPonto.setVisible(false);
@@ -123,6 +124,13 @@ public class SelecionarTrianguloRot {
                }
                configurarElemento();
                pintarPontosTri();
+               Armazenador temp = areaDesenho.buscarED(indiceAtual);
+               TransfTriangulo rotacionar = new TransfTriangulo(areaDesenho.getX1(), areaDesenho.getY1());
+               double tetha = Double.parseDouble(entradaUser);
+               Armazenador transformado = rotacionar.rotacionarTriangulo(tetha, temp);
+               areaDesenho.deletarEspecifico(indiceAtual);
+               areaDesenho.inserirED(transformado);
+               areaDesenho.redesenharTrianguloTransf(transformado);
            }
        });
 

@@ -67,8 +67,9 @@ public class Reader {
                     // Acessar os pontos p1 e p2
                     JSONObject p1 = reta.getJSONObject("p1");
                     JSONObject p2 = reta.getJSONObject("p2");
+                    //JSONObject espessura = reta.getJSONObject("esp");
 
-                    double esp = p1.getDouble("esp");
+                    double esp = reta.getDouble("esp");
                     double p1x = p1.getDouble("x");
                     double p1y = p1.getDouble("y");
                     double p2x = p2.getDouble("x");
@@ -107,11 +108,10 @@ public class Reader {
 
                     // Acessar informacoes do circulo
                     JSONObject centro = circulo.getJSONObject("centro");
-                    double esp = centro.getDouble("esp");
+                    double esp = circulo.getDouble("esp");
                     double centroX = centro.getDouble("x");
                     double centroY = centro.getDouble("y");
-                    JSONObject raio = circulo.getJSONObject("raio");
-                    double auxRaio = raio.getDouble("raio");
+                    double auxRaio = circulo.getDouble("raio");
                     centroX *= largura;
                     centroY *= altura;
                     auxRaio *= largura;
@@ -150,7 +150,7 @@ public class Reader {
                     JSONObject p2 = triangulo.getJSONObject("p2");
                     JSONObject p3 = triangulo.getJSONObject("p3");
 
-                    double esp = p1.getDouble("esp");
+                    double esp = triangulo.getDouble("esp");
                     double p1x = p1.getDouble("x");
                     double p1y = p1.getDouble("y");
                     double p2x = p2.getDouble("x");
@@ -196,7 +196,7 @@ public class Reader {
                     JSONObject p1 = retangulo.getJSONObject("p1");
                     JSONObject p2 = retangulo.getJSONObject("p2");
 
-                    double esp = p1.getDouble("esp");
+                    double esp = retangulo.getDouble("esp");
                     double p1x = p1.getDouble("x");
                     double p1y = p1.getDouble("y");
                     double p2x = p2.getDouble("x");
@@ -237,7 +237,7 @@ public class Reader {
                     JSONObject p1 = mandala.getJSONObject("p1");
                     JSONObject p2 = mandala.getJSONObject("p2");
 
-                    double esp = p1.getDouble("esp");
+                    double esp = mandala.getDouble("esp");
                     double p1x = p1.getDouble("x");
                     double p1y = p1.getDouble("y");
                     double p2x = p2.getDouble("x");
@@ -255,16 +255,13 @@ public class Reader {
                     int g1 = cor1.getInt("g");
                     int b1 = cor1.getInt("b");
                     Color caux1 = new Color(r1,g1,b1);
-                    System.out.println(caux1);
 
                     int r2 = cor2.getInt("r");
                     int g2 = cor2.getInt("g");
                     int b2 = cor2.getInt("b");
                     Color caux2 = new Color(r2,g2,b2);
-                    System.out.println(caux2);
 
                     Armazenador temp = new Armazenador((int) p1x,(int) p1y, (int) p2x,(int) p2y, TipoPrimitivo.MANDALA,(int) esp, caux1, caux2);
-                    System.out.println(temp);
                     array.add(temp);
                     //debugging
                     /*
