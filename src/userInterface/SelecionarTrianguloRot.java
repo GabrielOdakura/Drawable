@@ -9,6 +9,12 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+/**
+ * Cria a interface de rotação do Triangulo e rotaciona o Triangulo desejado pelo usuario.
+ *
+ * @author Breno Rodrigues, Bruno Novo, Gabriel Odakura, Julio Arakaki
+ * @version 20231031
+ */
 public class SelecionarTrianguloRot {
 
    private PainelDesenho areaDesenho;

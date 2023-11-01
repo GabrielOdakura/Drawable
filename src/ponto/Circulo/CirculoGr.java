@@ -11,6 +11,12 @@ import ponto.PontoGr;
 
 import java.awt.*;
 
+/**
+ * Implementacao da classe Circulo grafico.
+ *
+ * @author Breno Rodrigues, Bruno Novo, Gabriel Odakura
+ * @version 20231031
+ */
 public class CirculoGr extends Circulo{
 
     private String nome;

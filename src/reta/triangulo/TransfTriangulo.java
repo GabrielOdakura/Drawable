@@ -7,10 +7,15 @@ import armazenador.Armazenador;
 import reta.RetaGr;
 import tipoPrimitivo.TipoPrimitivo;
 
+/**
+ * Contem metodos para a modificação de tringulos.
+ *
+ * @author Breno Rodrigues, Bruno Novo, Gabriel Odakura
+ * @version 20231031
+ */
 public class TransfTriangulo {
 
     private Armazenador atual;
-
 
     //Ponto selecionado pelo Usuário para rotação
     int xT;
@@ -19,7 +24,6 @@ public class TransfTriangulo {
     	this.xT = xT;
     	this.yT = yT;
     }
-    
 
     public Armazenador escalaTriangulo(Armazenador arm, int Sx, int Sy) {
         

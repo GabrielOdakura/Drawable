@@ -10,6 +10,12 @@ import reta.RetaGr;
 
 import java.awt.*;
 
+/**
+ * Implementacao da classe Retangulo grafico.
+ *
+ * @author Breno Rodrigues, Bruno Novo, Gabriel Odakura
+ * @version 20231031
+ */
 public class RetanguloGr extends Retangulo{
 
     private String nome;

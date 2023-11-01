@@ -8,6 +8,12 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+/**
+ * Cria a interface para a deletar uma Figura e deleta a figura desejado pelo usuario.
+ *
+ * @author Breno Rodrigues, Bruno Novo, Gabriel Odakura, Julio Arakaki
+ * @version 20231031
+ */
 public class SelecionarFiguraDel {
 
     private PainelDesenho areaDesenho;

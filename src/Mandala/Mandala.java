@@ -8,6 +8,12 @@ package Mandala;
 
 import ponto.Ponto;
 
+/**
+ * Representacao do Mandala matematicamente.
+ *
+ * @author Breno Rodrigues, Bruno Novo, Gabriel Odakura
+ * @version 20231031
+ */
 public class Mandala {
 
     private Ponto ponto1;

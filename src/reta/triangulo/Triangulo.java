@@ -8,6 +8,12 @@ package reta.triangulo;
 
 import ponto.Ponto;
 
+/**
+ * Representacao do Triangulo matematicamente.
+ *
+ * @author Breno Rodrigues, Bruno Novo, Gabriel Odakura
+ * @version 20231031
+ */
 public class Triangulo {
 
     private Ponto ponto1, ponto2, ponto3, pontoT;

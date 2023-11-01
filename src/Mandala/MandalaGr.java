@@ -12,6 +12,12 @@ import reta.triangulo.TrianguloGr;
 
 import java.awt.*;
 
+/**
+ * Implementacao da classe Mandala grafico.
+ *
+ * @author Breno Rodrigues, Bruno Novo, Gabriel Odakura
+ * @version 20231031
+ */
 public class MandalaGr extends Mandala{
 
     private String nome;

@@ -10,6 +10,12 @@ package reta.retangulo;
 
 import ponto.*;
 
+/**
+ * Representacao do Retangulo matematicamente.
+ *
+ * @author Breno Rodrigues, Bruno Novo, Gabriel Odakura
+ * @version 20231031
+ */
 public class Retangulo {
 
     private Ponto ponto1;

@@ -5,6 +5,12 @@ import tipoPrimitivo.TipoPrimitivo;
 
 import java.awt.*;
 
+/**
+ * Local de armazenamento dos dados de cada desenho.
+ *
+ * @author Breno Rodrigues, Bruno Novo, Gabriel Odakura
+ * @version 20231031
+ */
 public class Armazenador {
 	private Ponto ponto1;
 	private Ponto ponto2;

@@ -12,6 +12,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Leitura do arquivo(Json) desejado pelo usuario.
+ *
+ * @author Breno Rodrigues, Bruno Novo, Gabriel Odakura
+ * @version 20231031
+ */
 public class Reader {
     public void lerJson(int largura, int altura, String nomeArquivo, ArrayList<Object> array) {
         try {

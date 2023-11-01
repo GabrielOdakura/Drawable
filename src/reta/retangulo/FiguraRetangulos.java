@@ -8,6 +8,12 @@ package reta.retangulo;
 
 import java.awt.*;
 
+/**
+ * Contem metodos para desenhar o Retangulo.
+ *
+ * @author Breno Rodrigues, Bruno Novo, Gabriel Odakura
+ * @version 20231031
+ */
 public class FiguraRetangulos {
 
     /**

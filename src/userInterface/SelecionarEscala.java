@@ -9,6 +9,12 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+/**
+ * Cria a interface de mudança da escala do Triangulo e Escalona o Triangulo desejado pelo usuario.
+ *
+ * @author Breno Rodrigues, Bruno Novo, Gabriel Odakura, Julio Arakaki
+ * @version 20231031
+ */
 public class SelecionarEscala {
 
     private PainelDesenho areaDesenho;

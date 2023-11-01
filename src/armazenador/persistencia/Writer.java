@@ -9,7 +9,12 @@ import org.json.*;
 import armazenador.Armazenador;
 import tipoPrimitivo.TipoPrimitivo;
 
-
+/**
+ * Salvamento do desenho desejado pelo usuario, criando um arquivo de nome escolhido.
+ *
+ * @author Breno Rodrigues, Bruno Novo, Gabriel Odakura
+ * @version 20231031
+ */
 public class Writer {
 	public void escreverJSON(int largura, int altura, String nomeArquivo, ArrayList<Object> lista) {
 		Armazenador temp;

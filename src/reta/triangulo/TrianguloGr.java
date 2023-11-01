@@ -10,6 +10,12 @@ import reta.RetaGr;
 
 import java.awt.*;
 
+/**
+ * Implementacao da classe Triangulo grafico.
+ *
+ * @author Breno Rodrigues, Bruno Novo, Gabriel Odakura
+ * @version 20231031
+ */
 public class TrianguloGr extends Triangulo{
     private String nome;
     private int espessura;

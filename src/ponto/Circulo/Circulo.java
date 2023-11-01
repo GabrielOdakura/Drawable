@@ -8,6 +8,12 @@ package ponto.Circulo;
 
 import ponto.Ponto;
 
+/**
+ * Representacao do Circulo matematicamente.
+ *
+ * @author Breno Rodrigues, Bruno Novo, Gabriel Odakura
+ * @version 20231031
+ */
 public class Circulo {
     private Ponto ponto1;
     private Ponto ponto2;

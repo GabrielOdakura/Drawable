@@ -13,7 +13,7 @@ import javax.swing.*;
  * Cria a interface com o usuario (GUI)
  *
  * @author Breno Rodrigues, Bruno Novo, Gabriel Odakura, Julio Arakaki
- * @version 20230905
+ * @version 20231031
  */
 public class Gui extends JFrame {
     // Tipo Atual de primitivo
