@@ -159,7 +159,7 @@ public class SelecionarEscala {
 
         jbEscalar.addActionListener(e ->{
             if(areaDesenho.retrocederVazia()){
-                nomeEscala.setText("Sem Elementos Restantes");
+                //nomeEscala.setText("Sem Elementos Restantes");
                 textoPonto.setVisible(false);
                 pintarSaida = false;
                 jbEscalar.setEnabled(false);
@@ -181,10 +181,10 @@ public class SelecionarEscala {
                 pintarPontosTri();
                 if(areaDesenho.getX() != 0 && areaDesenho.getY() != 0) {
                     Armazenador temp = areaDesenho.buscarED(indiceAtual);
-                    TransfTriangulo rotacionar = new TransfTriangulo(areaDesenho.getX(), areaDesenho.getY());
-                    int sX = (int) entradaUserX;
-                    int sY = (int) entradaUserY;
-                    Armazenador transformado = rotacionar.escalaTriangulo(temp, sX, sY);
+                    TransfTriangulo escala = new TransfTriangulo(areaDesenho.getX(), areaDesenho.getY());
+                    double sX = entradaUserX;
+                    double sY = entradaUserY;
+                    Armazenador transformado = escala.escalaTriangulo(temp, sX, sY);
                     areaDesenho.deletarEspecifico(indiceAtual);
                     areaDesenho.inserirED(transformado);
                     areaDesenho.redesenharTrianguloTransf();

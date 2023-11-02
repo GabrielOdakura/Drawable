@@ -25,7 +25,7 @@ public class TransfTriangulo {
     	this.yT = yT;
     }
 
-    public Armazenador escalaTriangulo(Armazenador arm, int Sx, int Sy) {
+    public Armazenador escalaTriangulo(Armazenador arm, double Sx, double Sy) {
 
         double x1 = arm.getPonto1().getX();
         double x2 = arm.getPonto2().getX();
@@ -36,13 +36,13 @@ public class TransfTriangulo {
 
         //Novos pontos após o escalonamento
         int x1T = (int) (Sx * x1 + (1 - Sx) * xT);
-        int y1T = (int) (Sy * y1 * (1 - Sy) * yT);
+        int y1T = (int) (Sy * y1 + (1 - Sy) * yT);
         
         int x2T = (int) (Sx * x2 + (1 - Sx) * xT);
-        int y2T = (int) (Sy * y2 * (1 - Sy) * yT);
+        int y2T = (int) (Sy * y2 + (1 - Sy) * yT);
         
         int x3T = (int) (Sx * x3 + (1 - Sx) * xT);
-        int y3T = (int) (Sy * y3 * (1 - Sy) * yT);
+        int y3T = (int) (Sy * y3 + (1 - Sy) * yT);
 
         return new Armazenador(x1T,y1T,x2T,y2T,x3T,y3T,TipoPrimitivo.TRIANGULO,arm.getEspessura(),arm.getCorFigura());
     }

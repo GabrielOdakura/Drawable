@@ -283,7 +283,7 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
                 x2 = (int) e.getX();
                 y2 = (int) e.getY();
                 primeiraVez = true;
-                auxiliar = new Armazenador(x1, y1, x2, y2, tipo, esp, primeiraCorMandala, segundaCorMandala);
+                auxiliar = new Armazenador(x1, y1, x2, y2, tipo, esp, getPrimeiraCorMandala(), segundaCorMandala);
                 estruturaDados.add(auxiliar);
                 retrocederStack.clear();
                 paint(g);
@@ -516,6 +516,7 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
                 tipo = temporario.getTipo();
                 corAtual = temporario.getCorFigura();
                 if (temporario.getTipo() == TipoPrimitivo.MANDALA){
+                    primeiraCorMandala = temporario.getCorFigura();
                     segundaCorMandala = temporario.getSegundaCorMandala();
                 }
                 desenharPrimitivos(g);

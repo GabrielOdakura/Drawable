@@ -270,14 +270,14 @@ public class Reader {
                     Armazenador temp = new Armazenador((int) p1x,(int) p1y, (int) p2x,(int) p2y, TipoPrimitivo.MANDALA,(int) esp, caux1, caux2);
                     array.add(temp);
                     //debugging
-                    /*
+
                     // Mostrar os valores lidos
                     System.out.println("Mandala " + id + ": Espessura=" + esp);
                     System.out.println("Ponto 1 (X, Y): " + p1x + ", " + p1y);
                     System.out.println("Ponto 2 (X, Y): " + p2x + ", " + p2y);
                     System.out.println("Cor 1 (R, G, B): " + r1 + ", " + g1 + ", " + b1);
                     System.out.println("Cor 2 (R, G, B): " + r2 + ", " + g2 + ", " + b2);
-                     */
+
                 }
             }
             // Feche o leitor
