@@ -38,6 +38,8 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
     private int esp;              // Diametro do ponto
     private String nomeArquivo;
 
+    // x e y para rotacao e escala do triangulo
+    private int x = 0, y = 0;
 
     // Para ponto, reta, retangulo e triangulo
     private int x1, y1, x2, y2, x3, y3;
@@ -165,12 +167,20 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 		this.primeiraCorMandala = primeiraCorMandala;
 	}
 	
-	public int getX1() {
-		return x1;
+	public int getX() {
+		return x;
 	}
+
+    public void setX(int valor){
+        this.x = valor;
+    }
+
+    public void setY(int valor){
+        this.y = valor;
+    }
 	
-	public int getY1() {
-		return y1;
+	public int getY() {
+		return y;
 	}
 
 	/**
@@ -279,11 +289,11 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
                 paint(g);
             }
         } else if (tipo == TipoPrimitivo.ROTACAO){
-            x1 = e.getX();
-            y1 = e.getY();
+            x = e.getX();
+            y = e.getY();
         } else if (tipo == TipoPrimitivo.ESCALA){
-            x1 = e.getX();
-            y1 = e.getY();
+            x = e.getX();
+            y = e.getY();
         }
     }     
 
@@ -324,12 +334,19 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
             }
         }
     }
+
+    /** writeJSON - Escreve o arquivo de saida em formato JSON
+     *
+     */
     public void writeJSON(){
         nomeArquivo = JOptionPane.showInputDialog("Nome do Arquivo a ser Salvado: ");
         Writer salvar = new Writer();
         salvar.escreverJSON(this.getWidth(),this.getHeight(), nomeArquivo, estruturaDados);
     }
 
+    /** readJSON - Lê o arquivo de entrada em formato JSON
+     *
+     */
     public void readJSON(){
         Reader ler = new Reader();
         estruturaDados.clear();
@@ -339,10 +356,16 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
         redesenharED();
     }
 
+    /** limparED - apaga todos os elementos na ArrayList
+     *
+     */
     public void limparED(){
         estruturaDados.clear();
     }
-    
+
+    /** limparStack - apaga todos os elementos na Stack
+     *
+     */
     public void limparStack() {
     	retrocederStack.clear();
     }
@@ -354,15 +377,25 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
     public int getTamanhoED(){
         return estruturaDados.size();
     }
-    
 
 
+    /** buscarED - busca um índice específico na ArrayList
+     *
+     * @return Armazenador - referencia da variavel guardada na ArrayList
+     */
     public Armazenador buscarED(int indice){
         return (Armazenador) estruturaDados.get(indice);// pega o indice da busca e procura na ArrayList
     }
-    
+
+    /** inserirED - insere um elemento na ArrayList
+     *
+     */
     public void inserirED(Armazenador inserir) {
     	estruturaDados.add(inserir);
+    }
+
+    public void setED(int indice, Armazenador inserir){
+        estruturaDados.set(indice, inserir);
     }
 
     /** deletarEspecifico - deleta o elemento especifico da ED e coloca na Stack para voltar
@@ -377,7 +410,7 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
         redesenharED();
     }
 
-    /**retroceder - Função de Control + Z
+    /** retroceder - Método de Control + Z
      * 
      */
     public void retroceder(){ 
@@ -399,9 +432,8 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
     	return estruturaDados.isEmpty();
     }
     
-    /** recuperar - Função que restaura um elementro do Control + Z
-     * 
-     * 
+    /** recuperar - Método que restaura um elementro do Control + Z
+     *
      */
     public void recuperar() {
     	if(!retrocederStack.empty()) {
@@ -412,7 +444,13 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
     		System.out.println("Nao existem elementos para recuperar");
     	}
     }
-    
+
+
+    /** recuperarVazia - Método que verifica se a Stack está vazia ou não
+     *
+     *  @return - boolean : true  - Stack vazia
+     *                      false - Stack contem elementos
+     */
     public boolean recuperarVazia() {
     	return retrocederStack.isEmpty();
     }
@@ -442,23 +480,19 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
     		}
         desenharPrimitivos(g);
     }
-    
-    public void redesenharTrianguloTransf(Armazenador temporario){
-    	Graphics g = getGraphics();
-			x1 = (int) temporario.getPonto1().getX();
-			y1 = (int) temporario.getPonto1().getY();
-			x2 = (int) temporario.getPonto2().getX();
-        	y2 = (int) temporario.getPonto2().getY();
-			x3 = (int) temporario.getPonto3().getX();
-        	y3 = (int) temporario.getPonto3().getY();
-    		esp = temporario.getEspessura();
-    		tipo = temporario.getTipo();
-    		corAtual = temporario.getCorFigura();
-    		estruturaDados.add(temporario);
-    		
-        desenharPrimitivos(g);
+
+    /** redesenharTrianguloTransf - redesenha um Triangulo que foi transformado por escala ou rotação
+     *
+     */
+    public void redesenharTrianguloTransf(){
+        limparTela();
+        redesenharED();
+
     }
-    
+
+    /** redesenharED - Realiza a ação de redesenhar cada elemento guardado na estrutura de dados
+     *
+     */
     public void redesenharED(){
         Graphics g = getGraphics();
         int i = 0;
@@ -512,7 +546,10 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
             FiguraMandalas.desenharMandala(g, x1,y1,x2,y1,"", getEsp(),primeiraCorMandala, segundaCorMandala);
         }
     }
-    
+
+    /** limparTela - Método que "limpa" a tela
+     *
+     */
     public void limparTela() {
     	Graphics g = getGraphics();
     	FiguraPontos.desenharPonto(g, 350, 350,"",1000,corDeFundo);

@@ -13,7 +13,7 @@ import javax.swing.*;
  * Cria a interface com o usuario (GUI)
  *
  * @author Breno Rodrigues, Bruno Novo, Gabriel Odakura, Julio Arakaki
- * @version 20231031
+ * @version 20231101
  */
 public class Gui extends JFrame {
     // Tipo Atual de primitivo
@@ -161,13 +161,13 @@ public class Gui extends JFrame {
             tipoAtual = TipoPrimitivo.PONTO;
             areaDesenho.setTipo(tipoAtual);
             if(deletar != null) {
-            	deletar.toggleVisible();
+            	deletar.fecharTela();
             }
             if(rotacao != null) {
-                rotacao.toggleVisible2();
+                rotacao.fecharTela();
             }
             if(escala != null) {
-                escala.toggleVisible3();
+                escala.fecharTela();
             }
         });                             
         jbReta.addActionListener(e -> {
@@ -180,13 +180,13 @@ public class Gui extends JFrame {
             tipoAtual = TipoPrimitivo.RETA;
             areaDesenho.setTipo(tipoAtual);
             if(deletar != null) {
-            	deletar.toggleVisible();
+            	deletar.fecharTela();
             }
             if(rotacao != null) {
-                rotacao.toggleVisible2();
+                rotacao.fecharTela();
             }
             if(escala != null) {
-                escala.toggleVisible3();
+                escala.fecharTela();
             }
         });
         jbRetangulo.addActionListener(e -> {
@@ -199,13 +199,13 @@ public class Gui extends JFrame {
             tipoAtual = TipoPrimitivo.RETANGULO;
             areaDesenho.setTipo(tipoAtual);
             if(deletar != null) {
-            	deletar.toggleVisible();
+            	deletar.fecharTela();
             }
             if(rotacao != null) {
-                rotacao.toggleVisible2();
+                rotacao.fecharTela();
             }
             if(escala != null) {
-                escala.toggleVisible3();
+                escala.fecharTela();
             }
         });
         jbTriangulo.addActionListener(e -> {
@@ -218,13 +218,13 @@ public class Gui extends JFrame {
             tipoAtual = TipoPrimitivo.TRIANGULO;
             areaDesenho.setTipo(tipoAtual);
             if(deletar != null) {
-            	deletar.toggleVisible();
+            	deletar.fecharTela();
             }
             if(rotacao != null) {
-                rotacao.toggleVisible2();
+                rotacao.fecharTela();
             }
             if(escala != null) {
-                escala.toggleVisible3();
+                escala.fecharTela();
             }
         });
         jbCirculo.addActionListener(e -> {
@@ -237,13 +237,13 @@ public class Gui extends JFrame {
             tipoAtual = TipoPrimitivo.CIRCULO;
             areaDesenho.setTipo(tipoAtual);
             if(deletar != null) {
-            	deletar.toggleVisible();
+            	deletar.fecharTela();
             }
             if(rotacao != null) {
-                rotacao.toggleVisible2();
+                rotacao.fecharTela();
             }
             if(escala != null) {
-                escala.toggleVisible3();
+                escala.fecharTela();
             }
         });
         jbMandala.addActionListener(e ->{
@@ -258,13 +258,13 @@ public class Gui extends JFrame {
             areaDesenho.setSegundaCorMandala(JColorChooser.showDialog(null, "Escolha a cor dos circulos", msg.getForeground()));
             areaDesenho.setTipo(tipoAtual);
             if(deletar != null) {
-            	deletar.toggleVisible();
+            	deletar.fecharTela();
             }
             if(rotacao != null) {
-                rotacao.toggleVisible2();
+                rotacao.fecharTela();
             }
             if(escala != null) {
-                escala.toggleVisible3();
+                escala.fecharTela();
             }
         });
         jbRedesenhar.addActionListener(e ->{
@@ -276,10 +276,10 @@ public class Gui extends JFrame {
         	popupOpcoes.setVisible(false);
             areaDesenho.redesenharED();
             if(deletar != null) {
-            	deletar.toggleVisible();
+            	deletar.fecharTela();
             }
             if(escala != null) {
-                escala.toggleVisible3();
+                escala.fecharTela();
             }
         });
         jbLimpar.addActionListener(e -> {
@@ -362,13 +362,13 @@ public class Gui extends JFrame {
                 popupMenu.setVisible(false);
             });
             if(deletar != null) {
-            	deletar.toggleVisible();
+            	deletar.fecharTela();
             }
             if(rotacao != null) {
-                rotacao.toggleVisible2();
+                rotacao.fecharTela();
             }
             if(escala != null) {
-                escala.toggleVisible3();
+                escala.fecharTela();
             }
         });   
         
@@ -482,13 +482,13 @@ public class Gui extends JFrame {
             });
 
             if(deletar != null) {
-                deletar.toggleVisible();
+                deletar.fecharTela();
             }
             if(rotacao != null) {
-                rotacao.toggleVisible2();
+                rotacao.fecharTela();
             }
             if(escala != null) {
-                escala.toggleVisible3();
+                escala.fecharTela();
             }
             
         });
@@ -503,13 +503,13 @@ public class Gui extends JFrame {
         	if(!areaDesenho.retrocederVazia())
         	areaDesenho.retroceder();
         	if(deletar != null) {
-            	deletar.toggleVisible();
+            	deletar.fecharTela();
             }
             if(rotacao != null) {
-                rotacao.toggleVisible2();
+                rotacao.fecharTela();
             }
             if(escala != null) {
-                escala.toggleVisible3();
+                escala.fecharTela();
             }
         });
         jbRefazer.addActionListener(i -> {
@@ -522,13 +522,13 @@ public class Gui extends JFrame {
         	if(!areaDesenho.recuperarVazia())
         	areaDesenho.recuperar();
         	if(deletar != null) {
-            	deletar.toggleVisible();
+            	deletar.fecharTela();
             }
             if(rotacao != null) {
-                rotacao.toggleVisible2();
+                rotacao.fecharTela();
             }
             if(escala != null) {
-                escala.toggleVisible3();
+                escala.fecharTela();
             }
         });
         jbCor.addActionListener(e -> {

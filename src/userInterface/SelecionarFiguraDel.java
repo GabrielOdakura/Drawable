@@ -34,13 +34,17 @@ public class SelecionarFiguraDel {
     private boolean pintarSaida = true;
     private int indiceAtual = 0;
 
+    private static boolean flipflop = false;
+
     public SelecionarFiguraDel(PainelDesenho em){
         this.areaDesenho = em;
-        construirTela();
+        if(!flipflop) {
+            construirTela();
+        }
     }
 
     private void construirTela(){
-    	
+    	flipflop = true;
         Dimension dim = new Dimension(400,230);
         telaDeletar.setMinimumSize(dim);
         telaDeletar.setLocation((dim.width / 2) - (100 / 2), (dim.height / 2) + (500 / 2));
@@ -49,6 +53,7 @@ public class SelecionarFiguraDel {
             @Override
             public void windowClosing(WindowEvent e) {
                 if(pintarSaida) pintarPontosPadrao();
+                flipflop = false;
                 super.windowClosing(e);
             }
         });
@@ -179,6 +184,11 @@ public class SelecionarFiguraDel {
 
     public void toggleVisible(){
         telaDeletar.setVisible(false);
+    }
+
+    public void fecharTela(){
+        pintarSaida = false;
+        this.telaDeletar.dispatchEvent(new WindowEvent(telaDeletar, WindowEvent.WINDOW_CLOSING));
     }
 
     public void pintarPontos(){

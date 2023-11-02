@@ -13,7 +13,7 @@ import java.awt.event.WindowEvent;
  * Cria a interface de rotação do Triangulo e rotaciona o Triangulo desejado pelo usuario.
  *
  * @author Breno Rodrigues, Bruno Novo, Gabriel Odakura, Julio Arakaki
- * @version 20231031
+ * @version 20231101
  */
 public class SelecionarTrianguloRot {
 
@@ -34,33 +34,71 @@ public class SelecionarTrianguloRot {
     private boolean pintarSaida = true;
     private int indiceAtual = 0;
 
+    private double entradaAngulo = 0;
+
+    //variavel para previnir multiplas abas sendo abertas pelo bug criado pela biblioteca AWT
+    private static boolean flipflop = false;
+
    public SelecionarTrianguloRot(PainelDesenho me){
        this.areaDesenho = me;
-       construirTela2();
+       if(!flipflop) {
+           if(getAngulo()) {
+               JOptionPane.showMessageDialog(null, "Clique em um ponto na tela e depois \nclique no" +
+                       " botão de transformar triângulo");
+               construirTela2();
+           }
+       }
    }
+
+   private boolean getAngulo(){
+       boolean sinal = false;
+       do{
+           String entradaUser;
+           entradaUser = JOptionPane.showInputDialog("Angulo de Rotação: ");
+           if(entradaUser == null) {
+               sinal = false;
+               JOptionPane.showMessageDialog(null, "Operação Cancelada!");
+                break;
+           }else{
+               try{
+                   entradaAngulo = Double.parseDouble(entradaUser);
+                   sinal = true;
+                   break;
+               }catch (Exception e){
+                   JOptionPane.showMessageDialog(null, "Valor Invalido tente novamente (apenas numeros)!");
+                   System.out.println("Valor não double inserido!");
+                   sinal = true;
+               }
+           }
+       }while(sinal);
+       return sinal;
+   }
+
    private void construirTela2(){
 
+       flipflop = true;
+
+       //sets iniciais
        Dimension dim = new Dimension(400,230);
        telaRotacionar.setMinimumSize(dim);
        telaRotacionar.setLocation((dim.width / 2) - (100 / 2), (dim.height / 2) + (500 / 2));
        telaRotacionar.setSize(dim);
        telaRotacionar.addWindowListener(new WindowAdapter() {
            @Override
-           public void windowClosing(WindowEvent e) {
+           public void windowClosing(WindowEvent e) {//evento para fechar a tela
+               areaDesenho.setX(0);
+               areaDesenho.setY(0);
                if(pintarSaida) pintarPontosPadraoTri();
                super.windowClosing(e);
+               flipflop = false;
            }
        });
 
        telaRotacionar.setResizable(false);
 
        configurarElemento();
+       pintarPontosTri();
 
-       String entradaUser;
-
-       entradaUser = JOptionPane.showInputDialog("Angulo de Rotação: ");
-
-       double i = Float.parseFloat(entradaUser);
 
        //adicionar elementos no painel (caixa3)
        caixa3.add(nomeTriangulo, BorderLayout.WEST);
@@ -94,6 +132,9 @@ public class SelecionarTrianguloRot {
            if(areaDesenho.getTamanhoED() - 1 == indiceAtual){
                jbVai.setEnabled(false);
            }
+           if(areaDesenho.buscarED(indiceAtual).getTipo() == TipoPrimitivo.TRIANGULO){
+               jbRotacao.setEnabled(true);
+           }else jbRotacao.setEnabled(false);
        });
 
        jbVoltar.addActionListener(e ->{
@@ -105,6 +146,10 @@ public class SelecionarTrianguloRot {
            if (indiceAtual == 0){
                jbVoltar.setEnabled(false);
            }
+           if(areaDesenho.buscarED(indiceAtual).getTipo() == TipoPrimitivo.TRIANGULO){
+               jbRotacao.setEnabled(true);
+           }else jbRotacao.setEnabled(false);
+
        });
 
        jbRotacao.addActionListener(e ->{
@@ -130,17 +175,33 @@ public class SelecionarTrianguloRot {
                }
                configurarElemento();
                pintarPontosTri();
-               Armazenador temp = areaDesenho.buscarED(indiceAtual);
-               TransfTriangulo rotacionar = new TransfTriangulo(areaDesenho.getX1(), areaDesenho.getY1());
-               double tetha = Double.parseDouble(entradaUser);
-               Armazenador transformado = rotacionar.rotacionarTriangulo(tetha, temp);
-               areaDesenho.deletarEspecifico(indiceAtual);
-               areaDesenho.inserirED(transformado);
-               areaDesenho.redesenharTrianguloTransf(transformado);
+               if(areaDesenho.getX() != 0 && areaDesenho.getY() != 0) {
+                   Armazenador temp = areaDesenho.buscarED(indiceAtual);
+                   /*
+                   if(areaDesenho.getTamanhoED() == 1){
+                       temp = areaDesenho.buscarED(indiceAtual);
+                   }else {
+                       temp = areaDesenho.buscarED(indiceAtual + 1);
+                   }
+                    */
+                   TransfTriangulo rotacionar = new TransfTriangulo(areaDesenho.getX(), areaDesenho.getY());
+                   Armazenador transformado = rotacionar.rotacionarTriangulo(entradaAngulo, temp);
+                   areaDesenho.deletarEspecifico(indiceAtual);
+                   areaDesenho.inserirED(transformado);
+                   areaDesenho.redesenharTrianguloTransf();
+                   pintarSaida = false;
+                   areaDesenho.setTipo(TipoPrimitivo.ROTACAO);
+                   this.telaRotacionar.dispatchEvent(new WindowEvent(telaRotacionar, WindowEvent.WINDOW_CLOSING));
+               }else {
+                   JOptionPane.showMessageDialog(null, "Selecione um ponto primeiro!");
+               }
            }
-       });
 
-       pintarPontosTri();
+
+       });
+       if(areaDesenho.buscarED(indiceAtual).getTipo() == TipoPrimitivo.TRIANGULO){
+           jbRotacao.setEnabled(true);
+       }else jbRotacao.setEnabled(false);
        telaRotacionar.setVisible(true);
    }
 
@@ -153,33 +214,38 @@ public class SelecionarTrianguloRot {
                     + "Ponto 2 X: " + atual.getPonto2().getX() + "\n" +  "Ponto 2 Y: " + + atual.getPonto2().getY() + "\n"
                     + "Ponto 3 X: " + atual.getPonto3().getX() + "\n" +  "Ponto 3 Y: " + + atual.getPonto3().getY() + "\n";
             textoPonto.setText(caixaDeTexto);
-        }
+        }else textoPonto.setText("Não é um triangulo");
     }
 
-   public void toggleVisible2(){
+   public void toggleVisible(){
        telaRotacionar.setVisible(false);
+   }
+
+   public void fecharTela(){
+       pintarSaida = false;
+       this.telaRotacionar.dispatchEvent(new WindowEvent(telaRotacionar, WindowEvent.WINDOW_CLOSING));
    }
 
     public void pintarPontosTri(){
         Graphics g = areaDesenho.getGraphics();
-        if(atual.getTipo() == TipoPrimitivo.TRIANGULO){
-            FiguraPontos.desenharPonto(g,(int) atual.getPonto1().getX(),(int) atual.getPonto1().getY(),
+        if (atual.getTipo() == TipoPrimitivo.TRIANGULO) {
+            FiguraPontos.desenharPonto(g, (int) atual.getPonto1().getX(), (int) atual.getPonto1().getY(),
                     "", atual.getEspessura(), corRoxo);
-            FiguraPontos.desenharPonto(g,(int) atual.getPonto2().getX(),(int) atual.getPonto2().getY(),
+            FiguraPontos.desenharPonto(g, (int) atual.getPonto2().getX(), (int) atual.getPonto2().getY(),
                     "", atual.getEspessura(), corRoxo);
-            FiguraPontos.desenharPonto(g,(int) atual.getPonto3().getX(),(int) atual.getPonto3().getY(),
+            FiguraPontos.desenharPonto(g, (int) atual.getPonto3().getX(), (int) atual.getPonto3().getY(),
                     "", atual.getEspessura(), corRoxo);
         }
     }
 
     public void pintarPontosPadraoTri(){
         Graphics g = areaDesenho.getGraphics();
-        if(atual.getTipo() == TipoPrimitivo.TRIANGULO){
-            FiguraPontos.desenharPonto(g,(int) atual.getPonto1().getX(),(int) atual.getPonto1().getY(),
+        if (atual.getTipo() == TipoPrimitivo.TRIANGULO) {
+            FiguraPontos.desenharPonto(g, (int) atual.getPonto1().getX(), (int) atual.getPonto1().getY(),
                     "", atual.getEspessura(), atual.getCorFigura());
-            FiguraPontos.desenharPonto(g,(int) atual.getPonto2().getX(),(int) atual.getPonto2().getY(),
+            FiguraPontos.desenharPonto(g, (int) atual.getPonto2().getX(), (int) atual.getPonto2().getY(),
                     "", atual.getEspessura(), atual.getCorFigura());
-            FiguraPontos.desenharPonto(g,(int) atual.getPonto3().getX(),(int) atual.getPonto3().getY(),
+            FiguraPontos.desenharPonto(g, (int) atual.getPonto3().getX(), (int) atual.getPonto3().getY(),
                     "", atual.getEspessura(), atual.getCorFigura());
         }
     }

@@ -13,12 +13,12 @@ import java.awt.event.WindowEvent;
  * Cria a interface de mudança da escala do Triangulo e Escalona o Triangulo desejado pelo usuario.
  *
  * @author Breno Rodrigues, Bruno Novo, Gabriel Odakura, Julio Arakaki
- * @version 20231031
+ * @version 20231101
  */
 public class SelecionarEscala {
 
     private PainelDesenho areaDesenho;
-    private JFrame telaRotacionar = new JFrame("Escalonar Triangulo");
+    private JFrame telaEscala = new JFrame("Escalonar Triangulo");
     private JPanel caixa5 = new JPanel();
     private JPanel caixa6 = new JPanel();
     private JLabel nomeEscala = new JLabel();
@@ -33,40 +33,84 @@ public class SelecionarEscala {
     private boolean visible = false;
     private boolean pintarSaida = true;
     private int indiceAtual = 0;
+    private double entradaUserX, entradaUserY;
+
+    private static boolean flipflop = false;
 
     public SelecionarEscala(PainelDesenho eme){
         this.areaDesenho = eme;
-        construirTela3();
+        if(!flipflop) {
+            if(pegarEscalas()) {
+                JOptionPane.showMessageDialog(null, "Clique em um ponto na tela e depois \nclique no" +
+                        " botão de transformar triângulo");
+                construirTela3();
+            }
+        }
+    }
+
+    private boolean pegarEscalas(){
+        boolean sinal = false;
+        String entradaX, entradaY;
+        do {
+            entradaX = JOptionPane.showInputDialog("Fator da Escala X: ");
+            if(entradaX == null){
+                sinal = false;
+                JOptionPane.showMessageDialog(null, "Operação Cancelada!");
+            }else{
+                try{
+                    entradaUserX = Double.parseDouble(entradaX);
+                    sinal = true;
+                    break;
+                }catch (Exception e){
+                    JOptionPane.showMessageDialog(null, "Valor Invalido tente novamente (apenas numeros)!");
+                    System.out.println("Valor não double inserido!");
+                }
+            }
+        }while (true);
+        if(sinal){
+            do {
+                entradaY = JOptionPane.showInputDialog("Fator da Escala Y: ");
+                if(entradaY == null){
+                    sinal = false;
+                    JOptionPane.showMessageDialog(null, "Operação Cancelada!");
+                }else{
+                    try{
+                        entradaUserY = Double.parseDouble(entradaY);
+                        sinal = true;
+                        break;
+                    }catch (Exception e){
+                        JOptionPane.showMessageDialog(null, "Valor Invalido tente novamente (apenas numeros)!");
+                        System.out.println("Valor não double inserido!");
+                    }
+                }
+            }while(sinal);
+        }else sinal = false;
+        return sinal;
     }
     private void construirTela3(){
 
+        flipflop = true;
+
+        //sets iniciais
         Dimension dim = new Dimension(400,230);
-        telaRotacionar.setMinimumSize(dim);
-        telaRotacionar.setLocation((dim.width / 2) - (100 / 2), (dim.height / 2) + (500 / 2));
-        telaRotacionar.setSize(dim);
-        telaRotacionar.addWindowListener(new WindowAdapter() {
+        telaEscala.setMinimumSize(dim);
+        telaEscala.setLocation((dim.width / 2) - (100 / 2), (dim.height / 2) + (500 / 2));
+        telaEscala.setSize(dim);
+        telaEscala.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
+                areaDesenho.setX(0);
+                areaDesenho.setY(0);
                 if(pintarSaida) pintarPontosPadraoTri();
                 super.windowClosing(e);
+                flipflop = false;
             }
         });
 
-        telaRotacionar.setResizable(false);
+        telaEscala.setResizable(false);
 
         configurarElemento();
-
-        String entradaUserX, entradaUserY;
-
-        entradaUserX = JOptionPane.showInputDialog("Fator da Escala X: ");
-
-        double i = Float.parseFloat(entradaUserX);
-
-        entradaUserY = JOptionPane.showInputDialog("Fator da Escala Y: ");
-
-        double l = Float.parseFloat(entradaUserY);
-
-
+        pintarPontosTri();
 
         //adicionar elementos no painel (caixa5)
         caixa5.add(nomeEscala, BorderLayout.WEST);
@@ -77,8 +121,8 @@ public class SelecionarEscala {
         caixa6.add(jbVoltar, BorderLayout.WEST);
         caixa6.add(jbVai, BorderLayout.EAST);
 
-        telaRotacionar.add(caixa5, BorderLayout.NORTH);
-        telaRotacionar.add(caixa6, BorderLayout.SOUTH);
+        telaEscala.add(caixa5, BorderLayout.NORTH);
+        telaEscala.add(caixa6, BorderLayout.SOUTH);
 
         //config Area de Texto
         textoPonto.setBackground(corDeFundo);
@@ -135,19 +179,25 @@ public class SelecionarEscala {
                 }
                 configurarElemento();
                 pintarPontosTri();
-                Armazenador temp = areaDesenho.buscarED(indiceAtual);
-                TransfTriangulo rotacionar = new TransfTriangulo(areaDesenho.getX1(), areaDesenho.getY1());
-                int sX = Integer.parseInt(entradaUserX);
-                int sY = Integer.parseInt(entradaUserY);
-                Armazenador transformado = rotacionar.escalaTriangulo(temp, sX, sY);
-                areaDesenho.deletarEspecifico(indiceAtual);
-                areaDesenho.inserirED(transformado);
-                areaDesenho.redesenharTrianguloTransf(transformado);
+                if(areaDesenho.getX() != 0 && areaDesenho.getY() != 0) {
+                    Armazenador temp = areaDesenho.buscarED(indiceAtual);
+                    TransfTriangulo rotacionar = new TransfTriangulo(areaDesenho.getX(), areaDesenho.getY());
+                    int sX = (int) entradaUserX;
+                    int sY = (int) entradaUserY;
+                    Armazenador transformado = rotacionar.escalaTriangulo(temp, sX, sY);
+                    areaDesenho.deletarEspecifico(indiceAtual);
+                    areaDesenho.inserirED(transformado);
+                    areaDesenho.redesenharTrianguloTransf();
+                    areaDesenho.setTipo(TipoPrimitivo.ESCALA);
+                    pintarSaida = false;
+                    this.telaEscala.dispatchEvent(new WindowEvent(telaEscala, WindowEvent.WINDOW_CLOSING));
+                }else {
+                JOptionPane.showMessageDialog(null, "Selecione um ponto primeiro!");
+                }
             }
         });
 
-        pintarPontosTri();
-        telaRotacionar.setVisible(true);
+        telaEscala.setVisible(true);
     }
 
     private void configurarElemento() {
@@ -159,11 +209,16 @@ public class SelecionarEscala {
                     + "Ponto 2 X: " + atual.getPonto2().getX() + "\n" +  "Ponto 2 Y: " + + atual.getPonto2().getY() + "\n"
                     + "Ponto 3 X: " + atual.getPonto3().getX() + "\n" +  "Ponto 3 Y: " + + atual.getPonto3().getY() + "\n";
             textoPonto.setText(caixaDeTexto);
-        }
+        }else textoPonto.setText("Não é um triangulo");
     }
 
-    public void toggleVisible3(){
-        telaRotacionar.setVisible(false);
+    public void toggleVisible(){
+        telaEscala.setVisible(false);
+    }
+
+    public void fecharTela(){
+        pintarSaida = false;
+        this.telaEscala.dispatchEvent(new WindowEvent(telaEscala, WindowEvent.WINDOW_CLOSING));
     }
 
     public void pintarPontosTri(){
