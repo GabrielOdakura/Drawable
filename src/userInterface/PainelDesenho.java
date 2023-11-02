@@ -340,20 +340,28 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
      */
     public void writeJSON(){
         nomeArquivo = JOptionPane.showInputDialog("Nome do Arquivo a ser Salvado: ");
-        Writer salvar = new Writer();
-        salvar.escreverJSON(this.getWidth(),this.getHeight(), nomeArquivo, estruturaDados);
+        if (nomeArquivo == null){
+            JOptionPane.showMessageDialog(null, "Operação Cancelada!");
+        }else {
+            Writer salvar = new Writer();
+            salvar.escreverJSON(this.getWidth(), this.getHeight(), nomeArquivo, estruturaDados);
+        }
     }
 
     /** readJSON - Lê o arquivo de entrada em formato JSON
      *
      */
     public void readJSON(){
-        Reader ler = new Reader();
-        estruturaDados.clear();
         nomeArquivo = JOptionPane.showInputDialog("Nome do Arquivo a ser Lido: ");
-        ler.lerJson(this.getWidth(),this.getHeight(), nomeArquivo, estruturaDados);
-        limparTela();
-        redesenharED();
+        if(nomeArquivo == null){
+            JOptionPane.showMessageDialog(null, "Operação Cancelada!");
+        }else {
+            Reader ler = new Reader();
+            estruturaDados.clear();
+            ler.lerJson(this.getWidth(), this.getHeight(), nomeArquivo, estruturaDados);
+            limparTela();
+            redesenharED();
+        }
     }
 
     /** limparED - apaga todos os elementos na ArrayList
