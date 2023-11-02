@@ -381,7 +381,8 @@ public class Gui extends JFrame {
             salvarDesenho.setToolTipText("Salvar Desenho em um Arquivo");
             carregarDesenho.setToolTipText("Ler o Desenho de um Arquivo");
             deletarDesenho.setToolTipText("Deletar Elemento do Desenho");
-            escalaDesenho.setToolTipText("Escalonar do Desenho");
+            rotacionarTriangulo.setToolTipText("Rotacionar o Triangulo");
+            escalaDesenho.setToolTipText("Escalonar o Triângulo");
             fecharPopUp.setToolTipText("Fechar o Popup");
             
             salvarDesenho.addMouseListener(new java.awt.event.MouseAdapter() {

@@ -39,6 +39,7 @@ public class SelecionarFiguraDel {
     public SelecionarFiguraDel(PainelDesenho em){
         this.areaDesenho = em;
         if(!flipflop) {
+            flipflop = true;
             construirTela();
         }
     }

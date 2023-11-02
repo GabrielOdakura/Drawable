@@ -42,10 +42,15 @@ public class SelecionarTrianguloRot {
    public SelecionarTrianguloRot(PainelDesenho me){
        this.areaDesenho = me;
        if(!flipflop) {
+           flipflop = true;
            if(getAngulo()) {
                JOptionPane.showMessageDialog(null, "Clique em um ponto na tela e depois \nclique no" +
                        " botão de transformar triângulo");
                construirTela2();
+           } else {
+               pintarSaida = false;
+               flipflop = false;
+               this.telaRotacionar.dispatchEvent(new WindowEvent(telaRotacionar, WindowEvent.WINDOW_CLOSING));
            }
        }
    }
@@ -162,28 +167,8 @@ public class SelecionarTrianguloRot {
                jbVai.setEnabled(false);
                jbVoltar.setEnabled(false);
            }else {
-               if (indiceAtual != 0) {
-                   indiceAtual--;
-                   if(indiceAtual == 0) {
-                       jbVoltar.setEnabled(false);
-                       jbVai.setEnabled(false);
-                       if(areaDesenho.getTamanhoED() > 1) {
-                           jbVai.setEnabled(true);
-                       }
-
-                   }
-               }
-               configurarElemento();
-               pintarPontosTri();
                if(areaDesenho.getX() != 0 && areaDesenho.getY() != 0) {
                    Armazenador temp = areaDesenho.buscarED(indiceAtual);
-                   /*
-                   if(areaDesenho.getTamanhoED() == 1){
-                       temp = areaDesenho.buscarED(indiceAtual);
-                   }else {
-                       temp = areaDesenho.buscarED(indiceAtual + 1);
-                   }
-                    */
                    TransfTriangulo rotacionar = new TransfTriangulo(areaDesenho.getX(), areaDesenho.getY());
                    Armazenador transformado = rotacionar.rotacionarTriangulo(entradaAngulo, temp);
                    areaDesenho.deletarEspecifico(indiceAtual);

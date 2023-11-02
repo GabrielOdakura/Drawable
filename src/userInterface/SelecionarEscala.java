@@ -26,6 +26,7 @@ public class SelecionarEscala {
     private JButton jbVoltar = new JButton("◀");
     private JButton jbVai = new JButton("▶");
     private JButton jbEscalar = new JButton("Escalonação do Triangulo");
+    private WindowAdapter fechar;
     private static final Color corDeFundo = new Color(238,238,238);
 
     private Color corRoxo = new Color(174,55,255);
@@ -40,10 +41,15 @@ public class SelecionarEscala {
     public SelecionarEscala(PainelDesenho eme){
         this.areaDesenho = eme;
         if(!flipflop) {
+            flipflop = true;
             if(pegarEscalas()) {
                 JOptionPane.showMessageDialog(null, "Clique em um ponto na tela e depois \nclique no" +
                         " botão de transformar triângulo");
                 construirTela3();
+            }else{
+                pintarSaida = false;
+                flipflop = false;
+                this.telaEscala.dispatchEvent(new WindowEvent(telaEscala, WindowEvent.WINDOW_CLOSING));
             }
         }
     }
@@ -56,6 +62,7 @@ public class SelecionarEscala {
             if(entradaX == null){
                 sinal = false;
                 JOptionPane.showMessageDialog(null, "Operação Cancelada!");
+                break;
             }else{
                 try{
                     entradaUserX = Double.parseDouble(entradaX);
@@ -73,6 +80,7 @@ public class SelecionarEscala {
                 if(entradaY == null){
                     sinal = false;
                     JOptionPane.showMessageDialog(null, "Operação Cancelada!");
+                    break;
                 }else{
                     try{
                         entradaUserY = Double.parseDouble(entradaY);
@@ -167,18 +175,6 @@ public class SelecionarEscala {
                 jbVai.setEnabled(false);
                 jbVoltar.setEnabled(false);
             }else {
-                if (indiceAtual != 0) {
-                    indiceAtual--;
-                    if(indiceAtual == 0) {
-                        jbVoltar.setEnabled(false);
-                        jbVai.setEnabled(false);
-                        if(areaDesenho.getTamanhoED() > 1) {
-                            jbVai.setEnabled(true);
-                        }
-                    }
-                }
-                configurarElemento();
-                pintarPontosTri();
                 if(areaDesenho.getX() != 0 && areaDesenho.getY() != 0) {
                     Armazenador temp = areaDesenho.buscarED(indiceAtual);
                     TransfTriangulo escala = new TransfTriangulo(areaDesenho.getX(), areaDesenho.getY());
@@ -192,7 +188,7 @@ public class SelecionarEscala {
                     pintarSaida = false;
                     this.telaEscala.dispatchEvent(new WindowEvent(telaEscala, WindowEvent.WINDOW_CLOSING));
                 }else {
-                JOptionPane.showMessageDialog(null, "Selecione um ponto primeiro!");
+                    JOptionPane.showMessageDialog(null, "Selecione um ponto primeiro!");
                 }
             }
         });
@@ -210,6 +206,19 @@ public class SelecionarEscala {
                     + "Ponto 3 X: " + atual.getPonto3().getX() + "\n" +  "Ponto 3 Y: " + + atual.getPonto3().getY() + "\n";
             textoPonto.setText(caixaDeTexto);
         }else textoPonto.setText("Não é um triangulo");
+    }
+
+    private void setupWindowEvent(){
+        fechar = new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                areaDesenho.setX(0);
+                areaDesenho.setY(0);
+                if(pintarSaida) pintarPontosPadraoTri();
+                super.windowClosing(e);
+                flipflop = false;
+            }
+        };
     }
 
     public void toggleVisible(){
