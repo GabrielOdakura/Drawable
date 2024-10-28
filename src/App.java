@@ -1,3 +1,4 @@
+import userInterface.Gui;
 
 /**
  * Aplicacao para testar primitivos graficos.

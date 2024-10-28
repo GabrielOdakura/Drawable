@@ -3,6 +3,12 @@ package ponto;
 import java.awt.Color;
 import java.awt.Graphics;
 
+/**
+ * Implementacao da classe Ponto grafico.
+ *
+ * @author Breno Rodrigues, Bruno Novo, Gabriel Odakura
+ * @version 20231031
+ */
 public class PontoGr extends Ponto {
     Color corPto = Color.BLACK; // cor do ponto
     String nomePto = ""; // nome do ponto

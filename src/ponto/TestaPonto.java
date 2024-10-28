@@ -1,10 +1,10 @@
 package ponto;
 
 /**
- * Write a description of class TestaPonto here.
+ * Implementacao da classe Testa Ponto.
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Breno Rodrigues, Bruno Novo, Gabriel Odakura
+ * @version 20231031
  */
 public class TestaPonto{
     public static void main(String args[]) {

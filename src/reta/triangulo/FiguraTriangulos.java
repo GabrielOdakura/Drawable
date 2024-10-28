@@ -8,6 +8,12 @@ package reta.triangulo;
 
 import java.awt.*;
 
+/**
+ * Contem metodos para desenhar um Triangulo.
+ *
+ * @author Breno Rodrigues, Bruno Novo, Gabriel Odakura
+ * @version 20231031
+ */
 public class FiguraTriangulos {
 
     /**

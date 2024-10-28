@@ -2,7 +2,7 @@
  * implementacao da classe mandala grafico
  *
  * @author Breno Rodrigues, Bruno Novo, Gabriel Odakura
- * @version 20230821
+ * @version 20230905
  */
 package Mandala;
 
@@ -12,12 +12,18 @@ import reta.triangulo.TrianguloGr;
 
 import java.awt.*;
 
+/**
+ * Implementacao da classe Mandala grafico.
+ *
+ * @author Breno Rodrigues, Bruno Novo, Gabriel Odakura
+ * @version 20231031
+ */
 public class MandalaGr extends Mandala{
 
     private String nome;
     private int espessura;
-    private Color corAtual = Color.red;
-    private Color corCirculo = Color.BLUE;
+    private Color corAtual;
+    private Color corCirculo;
 
     /**
      * MandalaGr - Constroi uma mandala grafica
@@ -34,7 +40,7 @@ public class MandalaGr extends Mandala{
         super(x1, y1, x2, y2);
         this.nome = nome;
         this.espessura = espessura;
-//        this.corAtual = corAtual;
+        this.corAtual = corAtual;
         this.corCirculo = segundaCorMandala;
     }
 

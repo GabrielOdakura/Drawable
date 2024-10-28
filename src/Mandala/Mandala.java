@@ -2,12 +2,18 @@
  * implementacao da classe mandala
  *
  * @author Breno Rodrigues, Bruno Novo, Gabriel Odakura
- * @version 20230821
+ * @version 20230905
  */
 package Mandala;
 
 import ponto.Ponto;
 
+/**
+ * Representacao do Mandala matematicamente.
+ *
+ * @author Breno Rodrigues, Bruno Novo, Gabriel Odakura
+ * @version 20231031
+ */
 public class Mandala {
 
     private Ponto ponto1;
@@ -24,8 +30,13 @@ public class Mandala {
     private Ponto ponto12;
     private Ponto ponto13;
     public Mandala(int x1, int y1, int x2, int y2){
-        this.ponto1 = (new Ponto(x1,y1));
-        this.ponto2 = (new Ponto(x2,y2));
+    	if(x1<x2) { // caso os pontos sejam da esquerda pra direita
+    		this.ponto1 = (new Ponto(x1,y1));
+    		this.ponto2 = (new Ponto(x2,y2));
+    	}else { // caso os pontos sejam da direita pra esquerda
+    		this.ponto2 = (new Ponto(x1,y1));
+            this.ponto1 = (new Ponto(x2,y2));
+    	}
         calcularPontos();
     }
 
@@ -34,23 +45,21 @@ public class Mandala {
      */
     private void calcularPontos(){
         int distancia;
-        int diferencaXY;
-        int distanciaX; // serve para calcular os pontos diretamente abaixo e em cima de P1
+        int diferencaXY; // serve para calcular os pontos diretamente abaixo e em cima de P1
         distancia = (int) getPonto1().getX() - (int)  getPonto2().getX();
         diferencaXY = (int) (distancia - (distancia * 12.1) /100);
-        distanciaX = (int) ((distancia * 5) / 100);
         if(distancia < 0) distancia = distancia * -1;
-        this.ponto3 = (new Ponto((getPonto1().getX() + (distancia / 2)),(getPonto1().getY() - distancia)));
-        this.ponto4 = (new Ponto((getPonto3().getX() + (distancia - distanciaX)), getPonto3().getY()));
+        this.ponto3 = (new Ponto((getPonto1().getX() + (distancia / 2)),(getPonto1().getY() - diferencaXY)));
+        this.ponto4 = (new Ponto((getPonto3().getX() + (distancia)), getPonto3().getY()));
         this.ponto5 = (new Ponto((getPonto3().getX() - distancia), getPonto3().getY()));
-        this.ponto6 = (new Ponto((getPonto5().getX() - (distancia - distanciaX)), getPonto3().getY()));
-        this.ponto7 = (new Ponto(ponto1.getX(), (ponto1.getY() - (2 * distancia))));//distanciaY // (2 * distancia)
+        this.ponto6 = (new Ponto((getPonto5().getX() - (distancia)), getPonto3().getY()));
+        this.ponto7 = (new Ponto(ponto1.getX(), (ponto1.getY() - (2 * diferencaXY))));
         this.ponto8 = (new Ponto((getPonto1().getX() - distancia), getPonto1().getY()));
-        this.ponto9 = (new Ponto(getPonto6().getX(), (getPonto6().getY() + (2 * distancia))));
+        this.ponto9 = (new Ponto(getPonto6().getX(), (getPonto1().getY() + diferencaXY)));
         this.ponto10 = (new Ponto((getPonto9().getX() + distancia),(getPonto9().getY())));
         this.ponto11 = (new Ponto((getPonto10().getX() + distancia),(getPonto9().getY())));
         this.ponto12 = (new Ponto((getPonto4().getX()),(getPonto9().getY())));
-        this.ponto13 = (new Ponto(ponto1.getX(), (ponto1.getY() + (2 * distancia))));//distanciaY // (2 * distancia)
+        this.ponto13 = (new Ponto(ponto1.getX(), (ponto1.getY() + (2 * diferencaXY))));
     }
 
     //getters e setters

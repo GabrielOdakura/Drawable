@@ -1,8 +1,19 @@
+/**
+ * Desenha um circulo na tela
+ *
+ * @author Breno Rodrigues, Bruno Novo, Gabriel Odakura
+ * @version 20230905
+ */
 package ponto.Circulo;
 import java.awt.Color;
 import java.awt.*;
 
-
+/**
+ * Contem metodos para desenhar figuras com Circulo
+ *
+ * @author Breno Rodrigues, Bruno Novo, Gabriel Odakura
+ * @version 20231031
+ */
 public class FiguraCirculos {
 	/**
      * Desenha um circulo de acordo com os pontos p1 e p2

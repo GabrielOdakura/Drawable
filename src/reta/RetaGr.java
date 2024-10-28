@@ -210,210 +210,68 @@ public class RetaGr extends Reta{
     /** WIP - Algoritmo da reta por Midpoint
      *
      */
-    public void desenharRetaMid(Graphics g){
-        int dx = (int) getP2().getX() - (int) getP1().getX();
-        int dy = (int) getP2().getY() - (int) getP1().getY();
-        int x1 = (int) getP1().getX(), y1 = (int) getP1().getY();
-        int x2 = (int) getP2().getX(), y2 = (int) getP2().getY();
+public void desenharReta(Graphics g){
+    	
+    	// Pontos que definem a reta
+        int x1 = (int)getP1().getX(), x2 = (int)getP2().getX();
+        int y1 = (int)getP1().getY(), y2 = (int)getP2().getY();
 
-        int d = dy - (dx/2);
+        // Calculo de deltax e deltay
+        int dx = x2-x1;
+        int dy = y2-y1;
+        
+        int d; // Variavel para d
+        int incx, incy; // Variaveis para incremento
+        int x,y, i;
+        
+        x = x1; y = y1;
+        
+        if (dx < 0) dx = -dx;
+        if (dy < 0) dy = -dy;
+        incx = 1;
+        if (x2 < x1) incx = -1;
+        incy = 1;
+        if (y2 < y1) incy = -1;
+        
         PontoGr ponto;
 
-        ponto = new PontoGr((int) x1, (int) y1, getCorReta(), getEspReta());
+        ponto = new PontoGr((int) x, (int) y, getCorReta(), getEspReta());
         ponto.desenharPonto(g);
 
-        if(false){
-            System.out.println("valor dx: " + dx + " valor dy: " + dy);
-            while (x1 < x2) {// faz pelo valor de X
-                x1++;
-                if (d < 0) {
-                    d = d + dy;
-                }else{
-                    d += (dy - dx);
-                    y1++;
+        if(dx > dy){
+        	d = 2 * dy - dx;
+        	for (i=0; i<dx; i++) { // se deltax > deltay, varre pelo x
+                if (d >= 0) {
+                    y += incy;
+                    d += 2*(dy - dx);
+                } else {
+                    d += 2*dy;
                 }
-
-                ponto = new PontoGr((int) x1, (int) y1, getCorReta(), getEspReta());
+                x += incx;
+                ponto = new PontoGr((int) x, (int) y, getCorReta(), getEspReta());
                 ponto.desenharPonto(g);
-            }
-        }else{
-            System.out.println("valor dx: " + dx + " valor dy: " + dy);
-            while (y1 < y2) {// faz pelo valor de Y
-                y1++;
-                if (d < 0) {
-                    d = d + dx;
-                }else{
-                    d += (dx - dy);
-                    y1++;
-                }
-
-                ponto = new PontoGr((int) x1, (int) y1, getCorReta(), getEspReta());
-                ponto.desenharPonto(g);
-            }
-        }
-    }
-
-    /**
-     * Desenha reta grafica utilizando a equacao da reta: y = mx + b
-     *
-     * @param g Graphics. Classe com os metodos graficos do Java
-     */
-    public void desenharReta(Graphics g){
-
-        // calcula m e b da equacao da reta y = mx + b
-        double m = calcularM();
-        double b = calcularB();
-        int distanciaY = 40;// para caso o delta X for muito pequeno
-
-        // Variaveis auxiliares 
-        PontoGr ponto; 
-        double x, y;
-        
-        int y1 = (int) getP1().getY();
-        int y2 = (int) getP2().getY();
-
-        double pIni;
-        double pFim;
-
-        // desenha nome do ponto
-        g.setColor(getCorNomeReta());
-        g.drawString(getNomeReta(), (int)getP1().getX() + getEspReta(), (int)getP1().getY());
-
-        // percorre de x1 ate x2. 
-        // y é calculado pela equacao: y = mx + b
-        pIni = p1.getX();
-        pFim = p2.getX();
-        if(pIni == pFim) {
-        	desenharRetaVertical(g);
-        }else if(y1 == y2) {
-        	desenharRetaHorizontal(g);
-        }else if ((y1 - y2) < (pIni - pFim)) {
-        	if(y1 > y2) {
-            	for (y = y2; y <= y1; y++) {
-                    // Calculo de x pela equacao da reta
-                    x = (y - b) / m;
-
-                    // Define ponto grafico
-                    ponto = new PontoGr((int) x, (int) y, getCorReta(), getEspReta());
-
-                    // Desenha ponto grafico
-                    ponto.desenharPonto(g);
-                }
-            } else { 
-                for (y = y1; y <= y2; y++) {
-                    // Calculo de x pela equacao da reta
-                    x = (y - b) / m;
-
-                    // Define ponto grafico
-                    ponto = new PontoGr((int) x, (int) y, getCorReta(), getEspReta());
-
-                    // Desenha ponto grafico
-                    ponto.desenharPonto(g);
-                }
-            }
-        }else {
-        	if(pIni < pFim) {
-        		for (x = pIni; x <= pFim; x++) {
-                    // Calculo de y pela equacao da reta
-                    y = (m * x + b);
-
-                    // Define ponto grafico
-                    ponto = new PontoGr((int) x, (int) y, getCorReta(), getEspReta());
-
-                    // Desenha ponto grafico
-                    ponto.desenharPonto(g);
-                }
-        	}else {
-        		for (x = pFim; x <= pIni; x++) {
-                    // Calculo de y pela equacao da reta.
-                    y = (m * x + b);
-
-                    // Define ponto grafico
-                    ponto = new PontoGr((int) x, (int) y, getCorReta(), getEspReta());
-
-                    // Desenha ponto grafico
-                    ponto.desenharPonto(g);
-                }
         	}
         }
-    }
-
-    /**
-     * Desenha a reta sem mudanca no valor de x, somente no de y
-     *
-     * @param g Graphics. Classe com os metodos graficos do Java
-     */
-    public void desenharRetaVertical(Graphics g){
-        // Variaveis auxiliares
-        PontoGr ponto;
-        double y;
-
-        double pIni;
-        double pFim;
-
-        // desenha nome do ponto
-        g.setColor(getCorNomeReta());
-
-        // percorre de x1 ate x2 verticalmente.
-        pIni = p1.getY();
-        pFim = p2.getY();
-        if(pIni < pFim) {
-            for (y = pIni; y <= pFim; y++) {
-                // Calculo de y pela equacao da reta
-                // Define ponto grafico
-                ponto = new PontoGr((int) p1.getX(), (int) y, getCorReta(), getEspReta());
-
-                // Desenha ponto grafico
-                ponto.desenharPonto(g);
+        
+        	else { // se deltax <= deltay, varre pelo y
+        		
+                d = 2*dx-dy;   
+                
+                for (i=0; i<dy; i++) {
+                    if (d >= 0) {
+                        x += incx;
+                        d += 2*(dx - dy);
+                    } else {
+                        d += 2 * dx;
+                    }
+                    y += incy;
+                    
+                    // Desenhar ponto
+                    ponto = new PontoGr((int) x, (int) y, getCorReta(), getEspReta());
+                    ponto.desenharPonto(g);
+                }
             }
-        }else {
-            for (y = pFim; y <= pIni; y++) {
-                // Define ponto grafico
-                ponto = new PontoGr((int) p1.getX(), (int) y, getCorReta(), getEspReta());
-
-                // Desenha ponto grafico
-                ponto.desenharPonto(g);
-            }
-        }
-    }
-
-    /**
-     * Desenha a reta sem mudanca no valor de y, somente no de x
-     *
-     * @param g Graphics. Classe com os metodos graficos do Java
-     */
-    public void desenharRetaHorizontal(Graphics g){
-        // Variaveis auxiliares
-        PontoGr ponto;
-        double x;
-
-        double pIni;
-        double pFim;
-
-        // desenha nome do ponto
-        g.setColor(getCorNomeReta());
-
-        // percorre de x1 ate x2 verticalmente.
-        pIni = p1.getX();
-        pFim = p2.getX();
-        if(pIni < pFim) {
-            for (x = pIni; x <= pFim; x++) {
-                // Calculo de x pela equacao da reta
-                // Define ponto grafico
-                ponto = new PontoGr((int) x, (int) p1.getY(), getCorReta(), getEspReta());
-
-                // Desenha ponto grafico
-                ponto.desenharPonto(g);
-            }
-        }else {
-            for (x = pFim; x <= pIni; x++) {
-                // Define ponto grafico
-                ponto = new PontoGr((int) x, (int) p1.getY(), getCorReta(), getEspReta());
-
-                // Desenha ponto grafico
-                ponto.desenharPonto(g);
-            }
-        }
+        
     }
 }
 

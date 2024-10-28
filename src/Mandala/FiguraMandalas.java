@@ -2,13 +2,19 @@
  * Desenha uma mandala na tela
  *
  * @author Breno Rodrigues, Bruno Novo, Gabriel Odakura
- * @version 20230810
+ * @version 20230905
  */
 package Mandala;
 
 
 import java.awt.*;
 
+/**
+ * Contem metodos para desenhar o Mandala.
+ *
+ * @author Breno Rodrigues, Bruno Novo, Gabriel Odakura
+ * @version 20231031
+ */
 public class FiguraMandalas {
 
     /**
